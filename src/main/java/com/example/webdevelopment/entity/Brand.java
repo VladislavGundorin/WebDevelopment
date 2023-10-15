@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "brands")
 public class Brand extends BaseEntity {
-    @Column(name = "name")
     private String name;
 
     protected LocalDateTime created;

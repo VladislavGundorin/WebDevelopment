@@ -8,7 +8,7 @@ import java.util.UUID;
 public abstract class BaseEntity {
     @Id
     @Column(name = "id",length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected UUID id;
 
 }

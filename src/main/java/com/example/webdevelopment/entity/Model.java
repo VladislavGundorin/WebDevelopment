@@ -13,16 +13,16 @@ public class Model extends BaseEntity {
     private String name;
 //    @Enumerated(EnumType.STRING)
     private Category category;
-    @Column(name = "category",length = 11)
+    @Column(name = "category",length = 11, insertable = false,updatable = false)
     private URL imageUrl;
     private Integer startYear;
     private Integer endYear;
-    @Column(name = "brand_model")
+    @Column(name = "brand_model",insertable = false,updatable = false)
     private String brand;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-    @OneToMany(mappedBy = "model_id")
-    List<Offer> offer;
+//    @OneToMany(mappedBy = "models")
+//    List<Offer> offer;
     @PrePersist
     protected void onCreate(){
         created = LocalDateTime.now();
@@ -32,5 +32,4 @@ public class Model extends BaseEntity {
     protected void onUpdate(){
         modified = LocalDateTime.now();
     }
-
 }

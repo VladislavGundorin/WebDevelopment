@@ -19,8 +19,9 @@ public class User extends BaseEntity{
     private URL imageUrl;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-    @OneToMany(mappedBy = "seller_id")
-    private List<Offer> offers;
+//    @OneToMany
+//    @JoinColumn(name = "username",referencedColumnName = "id")
+//    private List<Offer> offers;
     @PrePersist
     protected void onCreate(){
         created = LocalDateTime.now();
