@@ -22,12 +22,12 @@ public class Offer extends BaseEntity{
     private String seller;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-//    @ManyToOne
-//    @JoinColumn(name = "seller_id",referencedColumnName = "id")
-//    private User user;
-//    @ManyToOne
-//    @JoinColumn(name = "model_id")
-//    private Model models;
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "model_id")
+    private Model models;
     @PrePersist
     protected void onCreate(){
         created = LocalDateTime.now();

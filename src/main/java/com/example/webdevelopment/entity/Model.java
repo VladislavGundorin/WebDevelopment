@@ -21,8 +21,11 @@ public class Model extends BaseEntity {
     private String brand;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-//    @OneToMany(mappedBy = "models")
-//    List<Offer> offer;
+    @OneToMany(mappedBy = "models")
+    List<Offer> offers;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brands;
     @PrePersist
     protected void onCreate(){
         created = LocalDateTime.now();

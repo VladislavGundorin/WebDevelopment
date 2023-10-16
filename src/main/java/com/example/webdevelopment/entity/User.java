@@ -1,6 +1,6 @@
 package com.example.webdevelopment.entity;
 
-import com.example.webdevelopment.enums.UserRole;
+import com.example.webdevelopment.enums.RoleType;
 import jakarta.persistence.*;
 
 import java.net.URL;
@@ -15,13 +15,15 @@ public class User extends BaseEntity{
     private String firstName;
     private String lastName;
     private boolean isActive;
-    private UserRole role;
+    private RoleType role;
     private URL imageUrl;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-//    @OneToMany
-//    @JoinColumn(name = "username",referencedColumnName = "id")
-//    private List<Offer> offers;
+    @OneToMany(mappedBy = "user")
+    private List<Offer> offers;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private UserRole userRoles;
     @PrePersist
     protected void onCreate(){
         created = LocalDateTime.now();
