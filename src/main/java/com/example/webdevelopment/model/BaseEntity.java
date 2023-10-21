@@ -1,4 +1,4 @@
-package com.example.webdevelopment.entity;
+package com.example.webdevelopment.model;
 
 import jakarta.persistence.*;
 
