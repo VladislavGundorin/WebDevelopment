@@ -14,7 +14,7 @@ public class Model extends BaseEntity {
     //    @Enumerated(EnumType.STRING)
     private Category category;
     @Column(name = "category", length = 11, insertable = false, updatable = false)
-    private URL imageUrl;
+    private String imageUrl;
     private Integer startYear;
     private Integer endYear;
     @Column(name = "brand_model", insertable = false, updatable = false)
@@ -31,7 +31,7 @@ public class Model extends BaseEntity {
 
     }
 
-    public Model(String name, Category category, URL imageUrl, Integer startYear, Integer endYear, String brand, LocalDateTime created, LocalDateTime modified, List<Offer> offers, Brand brands) {
+    public Model(String name, Category category, String imageUrl, Integer startYear, Integer endYear, String brand, LocalDateTime created, LocalDateTime modified, List<Offer> offers, Brand brands) {
         this.name = name;
         this.category = category;
         this.imageUrl = imageUrl;
@@ -60,11 +60,11 @@ public class Model extends BaseEntity {
         this.category = category;
     }
 
-    public URL getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

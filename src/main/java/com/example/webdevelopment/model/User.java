@@ -1,6 +1,6 @@
 package com.example.webdevelopment.model;
 
-import com.example.webdevelopment.enums.RoleType;
+import com.example.webdevelopment.enums.Role;
 import jakarta.persistence.*;
 
 import java.net.URL;
@@ -15,8 +15,8 @@ public class User extends BaseEntity{
     private String firstName;
     private String lastName;
     private boolean isActive;
-    private RoleType role;
-    private URL imageUrl;
+    private Role role;
+    private String imageUrl;
     protected LocalDateTime created;
     protected LocalDateTime modified;
     @OneToMany(mappedBy = "user")
@@ -25,7 +25,7 @@ public class User extends BaseEntity{
     @JoinColumn(name = "role_id")
     private UserRole userRoles;
 
-    public User(String username, String password, String firstName, String lastName, boolean isActive, RoleType role, URL imageUrl, LocalDateTime created, LocalDateTime modified, List<Offer> offers, UserRole userRoles) {
+    public User(String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl, LocalDateTime created, LocalDateTime modified, List<Offer> offers, UserRole userRoles) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -82,19 +82,19 @@ public class User extends BaseEntity{
         isActive = active;
     }
 
-    public RoleType getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(RoleType role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public URL getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

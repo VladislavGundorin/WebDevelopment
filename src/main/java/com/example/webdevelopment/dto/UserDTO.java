@@ -1,7 +1,7 @@
 package com.example.webdevelopment.dto;
 
-import javax.management.relation.Role;
-import java.net.URL;
+import com.example.webdevelopment.enums.Role;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,11 +13,11 @@ public class UserDTO {
     private String lastName;
     private boolean isActive;
     private Role role;
-    private URL imageUrl;
+    private String imageUrl;
+
     private LocalDateTime created;
     private LocalDateTime modified;
-
-    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, Role role, URL imageUrl, LocalDateTime created, LocalDateTime modified) {
+    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl, LocalDateTime created, LocalDateTime modified) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -89,11 +89,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public URL getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

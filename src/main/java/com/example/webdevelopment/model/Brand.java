@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "brands")
 public class Brand extends BaseEntity {
-    @Column(name="name", nullable = false, unique = true)
+    @Column(name="name")
     private String name;
     protected LocalDateTime created;
     protected LocalDateTime modified;

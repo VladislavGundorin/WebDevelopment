@@ -12,9 +12,9 @@ public class OfferDTO {
     private UUID id;
     private String description;
     private Engine engine;
-    private URL imageUrl;
+    private String imageUrl;
     private int mileage;
-    private BigDecimal price;
+    private int price;
     private Transmission transmission;
     private int year;
     private LocalDateTime created;
@@ -22,7 +22,7 @@ public class OfferDTO {
     private String model;
     private String seller;
 
-    public OfferDTO(UUID id, String description, Engine engine, URL imageUrl, int mileage, BigDecimal price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, String model, String seller) {
+    public OfferDTO(UUID id, String description, Engine engine, String imageUrl, int mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, String model, String seller) {
         this.id = id;
         this.description = description;
         this.engine = engine;
@@ -64,11 +64,11 @@ public class OfferDTO {
         this.engine = engine;
     }
 
-    public URL getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -80,11 +80,11 @@ public class OfferDTO {
         this.mileage = mileage;
     }
 
-    public BigDecimal getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

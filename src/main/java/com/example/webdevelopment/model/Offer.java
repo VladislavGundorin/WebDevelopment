@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public class Offer extends BaseEntity{
     private String description;
     private Engine engine;
-    private URL imageUrl;
+    private String imageUrl;
     private Integer mileage;
-    private BigDecimal price;
+    private int price;
     private Integer year;
     private String model;
     private String seller;
@@ -31,7 +31,7 @@ public class Offer extends BaseEntity{
      public Offer(){
 
      }
-    public Offer(String description, Engine engine, URL imageUrl, Integer mileage, BigDecimal price, Integer year, String model, String seller, LocalDateTime created, LocalDateTime modified, User user, Model models) {
+    public Offer(String description, Engine engine, String imageUrl, Integer mileage, int price, Integer year, String model, String seller, LocalDateTime created, LocalDateTime modified, User user, Model models) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -62,11 +62,11 @@ public class Offer extends BaseEntity{
         this.engine = engine;
     }
 
-    public URL getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -78,11 +78,11 @@ public class Offer extends BaseEntity{
         this.mileage = mileage;
     }
 
-    public BigDecimal getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

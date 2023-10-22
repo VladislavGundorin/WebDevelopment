@@ -1,16 +1,20 @@
 package com.example.webdevelopment.dto;
 
-import com.example.webdevelopment.enums.RoleType;
+import com.example.webdevelopment.enums.Role;
 
 import java.util.UUID;
 
 public class UserRoleDTO {
     private UUID id;
-    private RoleType roleType;
+    private Role role;
 
-    public UserRoleDTO(UUID id, RoleType roleType) {
+    public UserRoleDTO(UUID id, Role role) {
         this.id = id;
-        this.roleType = roleType;
+        this.role = role;
+    }
+
+    public UserRoleDTO() {
+
     }
 
     public UUID getId() {
@@ -21,19 +25,19 @@ public class UserRoleDTO {
         this.id = id;
     }
 
-    public RoleType getRoleType() {
-        return roleType;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleType(RoleType roleType) {
-        this.roleType = roleType;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
         return "UserRoleDTO{" +
                 "id=" + id +
-                ", roleType=" + roleType +
+                ", role=" + role +
                 '}';
     }
 }
