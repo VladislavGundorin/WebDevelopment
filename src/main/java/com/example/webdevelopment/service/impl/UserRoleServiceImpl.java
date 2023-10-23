@@ -61,4 +61,11 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void deleteUserRole(UUID id) {
         userRoleRepository.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> getActiveUsersWithRoles() {
+        return userRoleRepository.findActiveUsersWithRoles();
+    }
+
+
 }

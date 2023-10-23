@@ -16,4 +16,6 @@ public interface ModelService {
     ModelDTO updateModelById(UUID id, ModelDTO modelDTO);
 
     void deleteModelById(UUID id);
+
+    List<String> getModelsByBrandAndStartYear(String brandName,int yearstart);
 }

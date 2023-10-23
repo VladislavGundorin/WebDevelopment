@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import static com.example.webdevelopment.enums.Role.ADMIN;
+
 @Component
     public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -52,15 +54,9 @@ import java.util.UUID;
 
     @Override
     public void run(String... args) throws Exception {
-//        OfferDTO offer1 = new OfferDTO(null,"fff",Engine.DIESEL,"http://lorempixel.com/g/1680/1050/cats/",41741,1425256, Transmission.AUTOMATIC,2018,LocalDateTime.now(),LocalDateTime.now(),"Anton","Albert Gutmann");
-//        offerService.createOffer(offer1);
-//        ModelDTO model1 = new ModelDTO(null,"TT RS",Category.CAR,2019,2023,LocalDateTime.now(),LocalDateTime.now(),"https://example.com/audittRS.jpg","Audi");
-//        modelService.createModel(model1);
-//        offerService.findDescriptionsByModelName("TT RS").forEach(System.out::println);
-//    }
 
         userRoleRepository.save(new UserRole(Role.USER));
-        userRoleRepository.save(new UserRole(Role.ADMIN));
+        userRoleRepository.save(new UserRole(ADMIN));
 
         List<UserRole> userRoles = userRoleRepository.findAll();
         System.out.println(userRoles.toString());
@@ -102,7 +98,7 @@ import java.util.UUID;
 
             List<ModelDTO> models = new ArrayList<>();
             if (brandName.equals("BMW")) {
-                models.add(new ModelDTO(null, "3 Series", Category.CAR, 2018, 2022, LocalDateTime.now(), LocalDateTime.now(), "https://example.com/bmw3series.jpg",brandDTO));
+                models.add(new ModelDTO(null, "3 Series", Category.CAR, 2018, 2022, LocalDateTime.now(), LocalDateTime.now(), "https://example.com/bmw3series.jpg", brandDTO));
                 models.add(new ModelDTO(null, "X5", Category.CAR, 2019, 2022, LocalDateTime.now(), LocalDateTime.now(), "https://example.com/bmwx5.jpg", brandDTO));
                 models.add(new ModelDTO(null, "M5", Category.CAR, 2019, 2023, LocalDateTime.now(), LocalDateTime.now(), "https://example.com/bmwm5.jpg", brandDTO));
                 models.add(new ModelDTO(null, "M1", Category.CAR, 2017, 2021, LocalDateTime.now(), LocalDateTime.now(), "https://example.com/bmwm1.jpg", brandDTO));
@@ -151,31 +147,7 @@ import java.util.UUID;
         }
         List<ModelDTO> modelDTOList = modelService.getAllModels();
 
-//
-////        for (int i = 0; i < 5; i++) {
-////            BrandDTO brandDTO = new BrandDTO();
-////            brandDTO.setName(faker.company().name());
-////            brandDTO.setCreated(LocalDateTime.now());
-////            brandDTO.setModified(LocalDateTime.now());
-////            brandDTOS.add(brandDTO);
-////
-////            for (int j = 0; j < 50; j++) {
-////                ModelDTO modelDTO = new ModelDTO();
-////                modelDTO.setName(faker.company().industry());
-////                modelDTO.setCategory(Category.values()[random.nextInt(Category.values().length)]);
-////                modelDTO.setImageUrl(faker.internet().image());
-////                modelDTO.setStartYear(faker.number().numberBetween(2000, 2023));
-////                modelDTO.setEndYear(faker.number().numberBetween(modelDTO.getStartYear(), 2023));
-////                modelDTO.setBrand(brandDTO.getName());
-////                modelDTO.setCreated(LocalDateTime.now());
-////                modelDTO.setModified(LocalDateTime.now());
-////                modelDTOS.add(modelDTO);
-////
-////                modelService.createModel(modelDTO);
-////            }
-////            brandService.createBrand(brandDTO);
-////        }
-        for (int i=0; i<100; i++){
+        for (int i = 0; i < 100; i++) {
             OfferDTO offerDTO = new OfferDTO();
             offerDTO.setDescription(faker.lorem().sentence());
             offerDTO.setEngine(Engine.values()[faker.random().nextInt(Engine.values().length)]);
@@ -189,9 +161,40 @@ import java.util.UUID;
             offerDTO.setSeller(userDTOList.get(random.nextInt(userDTOList.size())));
             offerDTO.setModel(modelDTOList.get(random.nextInt(modelDTOList.size())));
             offerService.createOffer(offerDTO);
-
         }
+        offerService.getDescriptionsByBrandAndModel("Audi", "TT RS").forEach(System.out::println);
+        modelService.getModelsByBrandAndStartYear("BMW", 2015).forEach(System.out::println);
+        List<Object[]> results = userRepository.findUsersByRole(Role.ADMIN);
 
+        for (Object[] result : results) {
+            String firstName = (String) result[0];
+            String lastName = (String) result[1];
+            String roleName = ((Role) result[2]).name();
+            System.out.println("Имя: " + firstName + ", Фамилия: " + lastName + ", Роль: " + roleName);
+        }
+        List<Object[]> res = brandRepository.findBrandWithLowestMileageAndPrice();
+
+        for (Object[] row : res) {
+            String brandName = (String) row[0];
+            int mileage = (int) row[1];
+            int price = (int) row[2];
+
+            System.out.println("Brand Name: " + brandName);
+            System.out.println("Mileage: " + mileage);
+            System.out.println("Price: " + price);
+            System.out.println("------");
+        }
+        List<Object[]> ress = userRoleRepository.findActiveUsersWithRoles();
+
+        for (Object[] rew: ress){
+            String userName = (String) rew[0];
+            String password = (String) rew[1];
+            Role roleName = (Role) rew[2];
+
+            System.out.println("User Name: " + userName);
+            System.out.println("Password: " + password);
+            System.out.println("Role Name: " + roleName);
+        }
     }
 }
 

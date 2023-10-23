@@ -62,4 +62,9 @@ public class ModelServiceImpl implements ModelService {
         modelRepository.deleteById(id);
     }
 
+    @Override
+    public List<String> getModelsByBrandAndStartYear(String brandName, int yearstart) {
+        return modelRepository.findModelsByBrandAndStartYear(brandName,yearstart);
+    }
+
 }

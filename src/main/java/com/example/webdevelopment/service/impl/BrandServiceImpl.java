@@ -69,7 +69,14 @@ public class BrandServiceImpl implements BrandService {
                 .map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Object[]> getBrandWithLowestMileageAndPrice() {
+        return brandRepository.findBrandWithLowestMileageAndPrice();
     }
+
+
+}
 
 //    @Override
 //    public List<OfferDTO> findDescriptionsByModelName(String modelName) {

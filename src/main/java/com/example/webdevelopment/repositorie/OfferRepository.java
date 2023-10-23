@@ -12,6 +12,9 @@ import java.util.UUID;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, UUID> {
-    @Query("SELECT o.description FROM Offer o JOIN o.model m WHERE m.name = :modelName")
-    List<Offer> findDescriptionsByModelName(@Param("modelName") String modelName);
+    @Query("SELECT o.description FROM Offer o " +
+            "JOIN o.model m " +
+            "JOIN m.brand b " +
+            "WHERE b.name = :brandName AND m.name = :modelName")
+    List<String> findDescriptionsByBrandAndModel(@Param("brandName") String brandName, @Param("modelName") String modelName);
 }

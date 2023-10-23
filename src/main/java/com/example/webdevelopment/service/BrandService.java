@@ -18,7 +18,9 @@ public interface BrandService {
 
     void deleteBrandById(UUID id);
 
-     List<BrandDTO> getBrandByName(String name);
+    List<BrandDTO> getBrandByName(String name);
+
+    List<Object[]> getBrandWithLowestMileageAndPrice();
 
 }
 

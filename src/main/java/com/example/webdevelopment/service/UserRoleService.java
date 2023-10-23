@@ -1,6 +1,7 @@
 package com.example.webdevelopment.service;
 
 import com.example.webdevelopment.dto.UserRoleDTO;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,4 +17,9 @@ public interface UserRoleService {
     UserRoleDTO updateUserRoleById(UUID id,UserRoleDTO userRoleDTO);
 
     void deleteUserRole (UUID id);
+
+    List<Object[]> getActiveUsersWithRoles();
+
+
+
 }
