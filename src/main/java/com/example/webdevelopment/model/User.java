@@ -9,37 +9,46 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "password")
     private String password;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "is_active")
     private boolean isActive;
-    private Role role;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
     protected LocalDateTime created;
     protected LocalDateTime modified;
-    @OneToMany(mappedBy = "user")
-    private List<Offer> offers;
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private UserRole userRoles;
 
-    public User(String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl, LocalDateTime created, LocalDateTime modified, List<Offer> offers, UserRole userRoles) {
+    @OneToMany(mappedBy = "seller")
+    private List<Offer> offers;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private UserRole role;
+
+    public User() {
+
+    }
+
+    public User(String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, LocalDateTime created, LocalDateTime modified, UserRole role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
-        this.role = role;
         this.imageUrl = imageUrl;
         this.created = created;
         this.modified = modified;
-        this.offers = offers;
-        this.userRoles = userRoles;
-    }
-    public User(){
-
+        this.role = role;
     }
 
     public String getUsername() {
@@ -82,14 +91,6 @@ public class User extends BaseEntity{
         isActive = active;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -122,12 +123,12 @@ public class User extends BaseEntity{
         this.offers = offers;
     }
 
-    public UserRole getUserRoles() {
-        return userRoles;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setUserRoles(UserRole userRoles) {
-        this.userRoles = userRoles;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -138,14 +139,11 @@ public class User extends BaseEntity{
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
-                ", role=" + role +
-                ", imageUrl=" + imageUrl +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
-                ", offers=" + offers +
-                ", userRoles=" + userRoles +
+                ", role=" + role +
                 ", id=" + id +
                 "} " + super.toString();
     }
 }
-

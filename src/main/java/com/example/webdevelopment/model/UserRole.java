@@ -10,16 +10,19 @@ import java.util.List;
 @Table(name = "roles")
 public class UserRole extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
+    @Column(name = "name")
     private Role role;
-    @OneToMany(mappedBy = "userRoles",fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<User> users;
 
-    public UserRole(Role role) {
-        this.role = role;
-    }
     public UserRole(){
 
+    }
+
+    public UserRole(Role role) {
+        this.role = role;
     }
 
     public Role getRole() {
@@ -30,11 +33,14 @@ public class UserRole extends BaseEntity{
         this.role = role;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
     @Override
     public String toString() {
         return "UserRole{" +
                 "role=" + role +
-                ", users=" + users +
                 ", id=" + id +
                 "} " + super.toString();
     }

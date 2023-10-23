@@ -49,7 +49,7 @@ public class OfferServiceImpl implements OfferService {
         Optional<Offer> optionalOffer = offerRepository.findById(id);
         if (optionalOffer.isPresent()) {
             Offer offer = optionalOffer.get();
-            offer.setSeller(offerDTO.getSeller());
+//            offer.setSeller(offerDTO.getDescription());
             Offer updateSeller = offerRepository.save(offer);
             return modelMapper.map(updateSeller, OfferDTO.class);
         } else {
@@ -61,4 +61,12 @@ public class OfferServiceImpl implements OfferService {
     public void deleteOfferById(UUID id) {
         offerRepository.deleteById(id);
     }
+
+    @Override
+    public List<OfferDTO> findDescriptionsByModelName(String modelName) {
+        List<Offer> offers = offerRepository.findDescriptionsByModelName(modelName);
+        return offers.stream().map(offer -> modelMapper.map(offer,OfferDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }

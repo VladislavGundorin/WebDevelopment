@@ -3,44 +3,50 @@ package com.example.webdevelopment.model;
 import com.example.webdevelopment.enums.Category;
 import jakarta.persistence.*;
 
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "models")
 public class Model extends BaseEntity {
+    @Column(name = "name")
     private String name;
-    //    @Enumerated(EnumType.STRING)
+
+//    @Enumerated(EnumType.ORDINAL)
+//    @Column(name = "category", nullable = false)
     private Category category;
+
+    @Column(name = "image_url")
     private String imageUrl;
-    private Integer startYear;
-    private Integer endYear;
-    @Column(name = "brand_model", insertable = false, updatable = false)
-    private String brand;
+
+    @Column(name = "start_year")
+    private int startYear;
+
+    @Column(name = "end_year")
+    private int endYear;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-    @OneToMany(mappedBy = "models")
+
+    @OneToMany(mappedBy = "model")
     List<Offer> offers;
+
     @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brands;
+    @JoinColumn(name = "brand_id",referencedColumnName = "id")
+    private Brand brand;
 
     public Model(){
 
     }
 
-    public Model(String name, Category category, String imageUrl, Integer startYear, Integer endYear, String brand, LocalDateTime created, LocalDateTime modified, List<Offer> offers, Brand brands) {
+    public Model(String name, Category category, String imageUrl, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, Brand brand) {
         this.name = name;
         this.category = category;
         this.imageUrl = imageUrl;
         this.startYear = startYear;
         this.endYear = endYear;
-        this.brand = brand;
         this.created = created;
         this.modified = modified;
-        this.offers = offers;
-        this.brands = brands;
+        this.brand = brand;
     }
 
     public String getName() {
@@ -67,28 +73,20 @@ public class Model extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getStartYear() {
+    public int getStartYear() {
         return startYear;
     }
 
-    public void setStartYear(Integer startYear) {
+    public void setStartYear(int startYear) {
         this.startYear = startYear;
     }
 
-    public Integer getEndYear() {
+    public int getEndYear() {
         return endYear;
     }
 
-    public void setEndYear(Integer endYear) {
+    public void setEndYear(int endYear) {
         this.endYear = endYear;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
     }
 
     public LocalDateTime getCreated() {
@@ -115,12 +113,12 @@ public class Model extends BaseEntity {
         this.offers = offers;
     }
 
-    public Brand getBrands() {
-        return brands;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setBrands(Brand brands) {
-        this.brands = brands;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @Override
@@ -128,14 +126,12 @@ public class Model extends BaseEntity {
         return "Model{" +
                 "name='" + name + '\'' +
                 ", category=" + category +
-                ", imageUrl=" + imageUrl +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", startYear=" + startYear +
                 ", endYear=" + endYear +
-                ", brand='" + brand + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
-                ", offers=" + offers +
-                ", brands=" + brands +
+                ", brand=" + brand +
                 ", id=" + id +
                 "} " + super.toString();
     }

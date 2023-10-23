@@ -12,25 +12,27 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private boolean isActive;
-    private Role role;
     private String imageUrl;
+    private UserRoleDTO role;
 
     private LocalDateTime created;
     private LocalDateTime modified;
-    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl, LocalDateTime created, LocalDateTime modified) {
+
+    public UserDTO(){
+
+    }
+
+    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, UserRoleDTO role, LocalDateTime created, LocalDateTime modified) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
-        this.role = role;
         this.imageUrl = imageUrl;
+        this.role = role;
         this.created = created;
         this.modified = modified;
-    }
-    public UserDTO(){
-
     }
 
     public UUID getId() {
@@ -81,20 +83,20 @@ public class UserDTO {
         isActive = active;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public UserRoleDTO getRole() {
+        return role;
+    }
+
+    public void setRole(UserRoleDTO role) {
+        this.role = role;
     }
 
     public LocalDateTime getCreated() {
@@ -122,8 +124,8 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", role=" + role +
-                ", imageUrl=" + imageUrl +
                 ", created=" + created +
                 ", modified=" + modified +
                 '}';

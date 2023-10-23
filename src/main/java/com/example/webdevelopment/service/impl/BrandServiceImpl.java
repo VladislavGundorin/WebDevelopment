@@ -61,5 +61,21 @@ public class BrandServiceImpl implements BrandService {
     public void deleteBrandById(UUID id) {
         brandRepository.deleteById(id);
     }
-}
+
+    @Override
+    public List<BrandDTO> getBrandByName(String name) {
+        List<Brand> brands = brandRepository.findByName(name);
+        return brands.stream()
+                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .collect(Collectors.toList());
+    }
+    }
+
+//    @Override
+//    public List<OfferDTO> findDescriptionsByModelName(String modelName) {
+//        List<Offer> offers = offerRepository.findDescriptionsByModelName(modelName);
+//        return offers.stream().map(offer -> modelMapper.map(offer,OfferDTO.class))
+//                .collect(Collectors.toList());
+//    }
+
 

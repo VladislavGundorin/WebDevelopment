@@ -19,10 +19,14 @@ public class OfferDTO {
     private int year;
     private LocalDateTime created;
     private LocalDateTime modified;
-    private String model;
-    private String seller;
+    private UserDTO seller;
+    private ModelDTO model;
 
-    public OfferDTO(UUID id, String description, Engine engine, String imageUrl, int mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, String model, String seller) {
+    public OfferDTO(){
+
+    }
+
+    public OfferDTO(UUID id, String description, Engine engine, String imageUrl, int mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, UserDTO seller, ModelDTO model) {
         this.id = id;
         this.description = description;
         this.engine = engine;
@@ -33,11 +37,8 @@ public class OfferDTO {
         this.year = year;
         this.created = created;
         this.modified = modified;
-        this.model = model;
         this.seller = seller;
-    }
-    public OfferDTO(){
-
+        this.model = model;
     }
 
     public UUID getId() {
@@ -120,20 +121,20 @@ public class OfferDTO {
         this.modified = modified;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getSeller() {
+    public UserDTO getSeller() {
         return seller;
     }
 
-    public void setSeller(String seller) {
+    public void setSeller(UserDTO seller) {
         this.seller = seller;
+    }
+
+    public ModelDTO getModel() {
+        return model;
+    }
+
+    public void setModel(ModelDTO model) {
+        this.model = model;
     }
 
     @Override
@@ -142,15 +143,15 @@ public class OfferDTO {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", engine=" + engine +
-                ", imageUrl=" + imageUrl +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", mileage=" + mileage +
                 ", price=" + price +
                 ", transmission=" + transmission +
                 ", year=" + year +
                 ", created=" + created +
                 ", modified=" + modified +
-                ", model='" + model + '\'' +
-                ", seller='" + seller + '\'' +
+                ", seller=" + seller +
+                ", model=" + model +
                 '}';
     }
 }

@@ -16,4 +16,7 @@ public interface OfferService {
     OfferDTO updateOfferByID(UUID id,OfferDTO offerDTO);
 
     void deleteOfferById(UUID id);
+
+    List<OfferDTO> findDescriptionsByModelName(String modelName);
+
 }

@@ -1,6 +1,7 @@
 package com.example.webdevelopment.model;
 
 import com.example.webdevelopment.enums.Engine;
+import com.example.webdevelopment.enums.Transmission;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -10,40 +11,56 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "offers")
-public class Offer extends BaseEntity{
+public class Offer extends BaseEntity {
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "engine", nullable = false)
     private Engine engine;
+
+    @Column(name = "image_url")
     private String imageUrl;
+
+    @Column(name = "mileage")
     private Integer mileage;
+
+    @Column(name = "price")
     private int price;
-    private Integer year;
-    private String model;
-    private String seller;
-    protected LocalDateTime created;
-    protected LocalDateTime modified;
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private User user;
-    @ManyToOne
-    @JoinColumn(name = "model_id")
-    private Model models;
 
-     public Offer(){
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "transmission", nullable = false)
+    private Transmission transmission;
 
-     }
-    public Offer(String description, Engine engine, String imageUrl, Integer mileage, int price, Integer year, String model, String seller, LocalDateTime created, LocalDateTime modified, User user, Model models) {
+    @Column(name = "year")
+    private int year;
+
+    private LocalDateTime created;
+    private LocalDateTime modified;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id", referencedColumnName = "id")
+    private User seller;
+    @ManyToOne
+    @JoinColumn(name = "model_id", referencedColumnName = "id")
+    private Model model;
+
+    public Offer() {
+
+    }
+
+    public Offer(String description, Engine engine, String imageUrl, Integer mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, User seller, Model model) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
         this.mileage = mileage;
         this.price = price;
+        this.transmission = transmission;
         this.year = year;
-        this.model = model;
-        this.seller = seller;
         this.created = created;
         this.modified = modified;
-        this.user = user;
-        this.models = models;
+        this.seller = seller;
+        this.model = model;
     }
 
     public String getDescription() {
@@ -86,28 +103,20 @@ public class Offer extends BaseEntity{
         this.price = price;
     }
 
-    public Integer getYear() {
+    public Transmission getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
+    }
+
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(int year) {
         this.year = year;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
     }
 
     public LocalDateTime getCreated() {
@@ -126,20 +135,20 @@ public class Offer extends BaseEntity{
         this.modified = modified;
     }
 
-    public User getUser() {
-        return user;
+    public User getSeller() {
+        return seller;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 
-    public Model getModels() {
-        return models;
+    public Model getModel() {
+        return model;
     }
 
-    public void setModels(Model models) {
-        this.models = models;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     @Override
@@ -147,18 +156,18 @@ public class Offer extends BaseEntity{
         return "Offer{" +
                 "description='" + description + '\'' +
                 ", engine=" + engine +
-                ", imageUrl=" + imageUrl +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", mileage=" + mileage +
                 ", price=" + price +
+                ", transmission=" + transmission +
                 ", year=" + year +
-                ", model='" + model + '\'' +
-                ", seller='" + seller + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
-                ", user=" + user +
-                ", models=" + models +
+                ", seller=" + seller +
+                ", model=" + model +
                 ", id=" + id +
                 "} " + super.toString();
     }
 }
+
 

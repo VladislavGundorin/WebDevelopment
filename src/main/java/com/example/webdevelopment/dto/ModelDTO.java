@@ -14,9 +14,10 @@ public class ModelDTO {
     private LocalDateTime created;
     private LocalDateTime modified;
     private String imageUrl;
-    private String brand;
+    private BrandDTO brand;
 
-    public ModelDTO(UUID id, String name, Category category, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, String imageUrl, String brand) {
+
+    public ModelDTO(UUID id, String name, Category category, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, String imageUrl, BrandDTO brand) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -26,6 +27,7 @@ public class ModelDTO {
         this.modified = modified;
         this.imageUrl = imageUrl;
         this.brand = brand;
+
     }
     public ModelDTO(){
 
@@ -94,12 +96,11 @@ public class ModelDTO {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    public String getBrand() {
+    public BrandDTO getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(BrandDTO brand) {
         this.brand = brand;
     }
 
@@ -114,7 +115,7 @@ public class ModelDTO {
                 ", created=" + created +
                 ", modified=" + modified +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", brand='" + brand + '\'' +
+                ", brand=" + brand +
                 '}';
     }
 }

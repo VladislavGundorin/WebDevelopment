@@ -10,16 +10,17 @@ import java.util.List;
 public class Brand extends BaseEntity {
     @Column(name="name")
     private String name;
-    protected LocalDateTime created;
-    protected LocalDateTime modified;
-    @OneToMany(mappedBy = "brands")
+
+    private LocalDateTime created;
+    private LocalDateTime modified;
+
+    @OneToMany(mappedBy = "brand",fetch = FetchType.LAZY)
     List<Model> models;
 
-    public Brand(String name, LocalDateTime created, LocalDateTime modified, List<Model> models) {
+    public Brand(String name, LocalDateTime created, LocalDateTime modified) {
         this.name = name;
         this.created = created;
         this.modified = modified;
-        this.models = models;
     }
     public Brand(){
 
@@ -63,7 +64,6 @@ public class Brand extends BaseEntity {
                 "name='" + name + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
-                ", models=" + models +
                 ", id=" + id +
                 "} " + super.toString();
     }
