@@ -49,9 +49,27 @@ public class OfferServiceImpl implements OfferService {
         Optional<Offer> optionalOffer = offerRepository.findById(id);
         if (optionalOffer.isPresent()) {
             Offer offer = optionalOffer.get();
-//            offer.setSeller(offerDTO.getDescription());
+            offer.setDescription(offerDTO.getDescription());
             Offer updateSeller = offerRepository.save(offer);
             return modelMapper.map(updateSeller, OfferDTO.class);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public OfferDTO updateOfferAllFields(UUID id, OfferDTO offerDTO) {
+        Optional<Offer> optionalOffer = offerRepository.findById(id);
+        if (optionalOffer.isPresent()) {
+            Offer offer = optionalOffer.get();
+            offer.setDescription(offerDTO.getDescription());
+            offer.setEngine(offerDTO.getEngine());
+            offer.setImageUrl(offerDTO.getImageUrl());
+            offer.setMileage(offerDTO.getMileage());
+            offer.setPrice(offerDTO.getPrice());
+            offer.setTransmission(offerDTO.getTransmission());
+            offer.setYear(offerDTO.getYear());
+            Offer updatedOffer = offerRepository.save(offer);
+            return modelMapper.map(updatedOffer, OfferDTO.class);
         } else {
             return null;
         }

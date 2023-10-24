@@ -2,6 +2,7 @@ package com.example.webdevelopment.model;
 
 import com.example.webdevelopment.enums.Role;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class User extends BaseEntity {
     protected LocalDateTime created;
     protected LocalDateTime modified;
 
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @OneToMany(mappedBy = "seller")
     private List<Offer> offers;
 

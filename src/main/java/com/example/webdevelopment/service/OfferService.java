@@ -17,6 +17,8 @@ public interface OfferService {
 
     void deleteOfferById(UUID id);
 
+    OfferDTO updateOfferAllFields (UUID id, OfferDTO offerDTO);
+
     List<String> getDescriptionsByBrandAndModel(String brandName, String modelName);
 
 }

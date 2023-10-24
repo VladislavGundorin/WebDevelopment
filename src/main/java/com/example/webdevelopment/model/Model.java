@@ -2,6 +2,7 @@ package com.example.webdevelopment.model;
 
 import com.example.webdevelopment.enums.Category;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,8 +13,8 @@ public class Model extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-//    @Enumerated(EnumType.ORDINAL)
-//    @Column(name = "category", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "category")
     private Category category;
 
     @Column(name = "image_url")
@@ -26,7 +27,7 @@ public class Model extends BaseEntity {
     private int endYear;
     protected LocalDateTime created;
     protected LocalDateTime modified;
-
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @OneToMany(mappedBy = "model")
     List<Offer> offers;
 

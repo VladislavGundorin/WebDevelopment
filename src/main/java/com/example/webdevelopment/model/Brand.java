@@ -1,6 +1,7 @@
 package com.example.webdevelopment.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ public class Brand extends BaseEntity {
     private LocalDateTime created;
     private LocalDateTime modified;
 
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @OneToMany(mappedBy = "brand",fetch = FetchType.LAZY)
     List<Model> models;
 

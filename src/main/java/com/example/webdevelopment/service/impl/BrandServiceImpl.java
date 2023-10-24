@@ -78,11 +78,4 @@ public class BrandServiceImpl implements BrandService {
 
 }
 
-//    @Override
-//    public List<OfferDTO> findDescriptionsByModelName(String modelName) {
-//        List<Offer> offers = offerRepository.findDescriptionsByModelName(modelName);
-//        return offers.stream().map(offer -> modelMapper.map(offer,OfferDTO.class))
-//                .collect(Collectors.toList());
-//    }
-
 

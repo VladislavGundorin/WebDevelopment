@@ -186,7 +186,7 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
         }
         List<Object[]> ress = userRoleRepository.findActiveUsersWithRoles();
 
-        for (Object[] rew: ress){
+        for (Object[] rew : ress) {
             String userName = (String) rew[0];
             String password = (String) rew[1];
             Role roleName = (Role) rew[2];
@@ -195,6 +195,129 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
             System.out.println("Password: " + password);
             System.out.println("Role Name: " + roleName);
         }
+        //Offer reade
+        List<OfferDTO> offer = offerService.getAllOffers();
+        if (offer.isEmpty()) {
+            System.out.println("Нет карточек.");
+        } else {
+            System.out.println("Список всех карточек автомобилей:");
+            for (OfferDTO off : offer) {
+                System.out.println("список информации по каждому автомобилю: " + off.getDescription());
+            }
+        }
+        //create
+        OfferDTO newOffer = new OfferDTO();
+        newOffer.setDescription("New Offer Description");
+        OfferDTO createdOffer = offerService.createOffer(newOffer);
+        System.out.println("Создано предложение: " + createdOffer);
+        //update
+        List<OfferDTO> offers = offerService.getAllOffers();
+        if (!offers.isEmpty()) {
+            OfferDTO offerToUpdate = offers.get(0);
+            String originalDescription = offerToUpdate.getDescription();
+            offerToUpdate.setDescription("Updated Offer Description");
+            OfferDTO updatedOffer = offerService.updateOfferByID(offerToUpdate.getId(), offerToUpdate);
+            System.out.println("Original Description: " + originalDescription);
+            System.out.println("Updated Description: " + updatedOffer.getDescription());
+        } else {
+            System.out.println("Нет предложений для обновления.");
+        }
+        //Delete
+        List<OfferDTO> offerss = offerService.getAllOffers();
+        if (offerss.size() >= 2) {
+            OfferDTO offerToDelete = offerss.get(1);
+            UUID offerIdToDelete = offerToDelete.getId();
+            offerService.deleteOfferById(offerIdToDelete);
+            System.out.println("Предложение с идентификатором " + offerIdToDelete + " был удален.");
+        } else {
+            System.out.println("Недостаточно предложений для удаления второго..");
+        }
+// Brand create
+        BrandDTO newBrand = new BrandDTO();
+        newBrand.setName("New Brand Name");
+        BrandDTO createdBrand = brandService.createBrand(newBrand);
+        System.out.println("Создан бренд: " + createdBrand);
+
+// Brand update
+        List<BrandDTO> brands = brandService.getAllBrands();
+        if (!brands.isEmpty()) {
+            BrandDTO brandToUpdate = brands.get(0);
+            String originalName = brandToUpdate.getName();
+            brandToUpdate.setName("Updated Brand Name");
+            BrandDTO updatedBrand = brandService.updateBrandById(brandToUpdate.getId(), brandToUpdate);
+            System.out.println("Original Name: " + originalName);
+            System.out.println("Updated Name: " + updatedBrand.getName());
+        } else {
+            System.out.println("Нет брендов для обновления.");
+        }
+
+// Brand delete
+        List<BrandDTO> brandsList = brandService.getAllBrands();
+        if (brandsList.size() >= 2) {
+            BrandDTO brandToDelete = brandsList.get(1);
+            UUID brandIdToDelete = brandToDelete.getId();
+            brandService.deleteBrandById(brandIdToDelete);
+            System.out.println("Бренд с идентификатором " + brandIdToDelete + " был удален.");
+        } else {
+            System.out.println("Недостаточно брендов для удаления второго.");
+        }
+        List<BrandDTO> brandss = brandService.getAllBrands();
+        if (brandss.isEmpty()) {
+            System.out.println("Нет доступных брендов.");
+        } else {
+            System.out.println("Список всех брендов:");
+            for (BrandDTO brand : brandss) {
+                System.out.println("Название бренда: " + brand.getName());
+            }
+        }
+
+// Model create
+        ModelDTO newModel = new ModelDTO();
+        newModel.setName("New Model Name");
+        ModelDTO createdModel = modelService.createModel(newModel);
+        System.out.println("Создана модель: " + createdModel);
+
+// Model update
+        List<ModelDTO> models = modelService.getAllModels();
+        if (!models.isEmpty()) {
+            ModelDTO modelToUpdate = models.get(0);
+            String originalName = modelToUpdate.getName();
+            modelToUpdate.setName("Updated Model Name");
+            ModelDTO updatedModel = modelService.updateModelById(modelToUpdate.getId(), modelToUpdate);
+            System.out.println("Original Name: " + originalName);
+            System.out.println("Updated Name: " + updatedModel.getName());
+        } else {
+            System.out.println("Нет моделей для обновления.");
+        }
+
+// Model delete
+        List<ModelDTO> modelsList = modelService.getAllModels();
+        if (modelsList.size() >= 2) {
+            ModelDTO modelToDelete = modelsList.get(1);
+            UUID modelIdToDelete = modelToDelete.getId();
+            modelService.deleteModelById(modelIdToDelete);
+            System.out.println("Модель с идентификатором " + modelIdToDelete + " была удалена.");
+        } else {
+            System.out.println("Недостаточно моделей для удаления второй.");
+        }
+        List<ModelDTO> modelss = modelService.getAllModels();
+        if (modelss.isEmpty()) {
+            System.out.println("Нет доступных моделей.");
+        } else {
+            System.out.println("Список всех моделей:");
+            for (ModelDTO model : modelss) {
+                System.out.println("Идентификатор: " + model.getId());
+                System.out.println("Имя модели: " + model.getName());
+            }
+        }
+        List<UserDTO> users = userService.getAllUsers();
+        if (!users.isEmpty()) {
+            UserDTO userToUpdate = users.get(0);
+            String pastUsername = userToUpdate.getUsername();
+            userToUpdate.setUsername("Bob");
+            UserDTO trueUser = userService.updatUser(userToUpdate.getId(), userToUpdate);
+            System.out.println("Original Description: " + pastUsername);
+            System.out.println("Updated Description: " + trueUser.getUsername());
+        }
     }
 }
-
