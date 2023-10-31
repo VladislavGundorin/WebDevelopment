@@ -2,23 +2,27 @@ package com.example.webdevelopment.dto;
 
 import com.example.webdevelopment.enums.Engine;
 import com.example.webdevelopment.enums.Transmission;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import org.hibernate.validator.constraints.Length;
 
-import java.math.BigDecimal;
-import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class OfferDTO {
     private UUID id;
+    @NotBlank
+    @Length(max = 1024,message = "Описание не должно быть пустым.")
     private String description;
     private Engine engine;
+    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
     private String imageUrl;
+    @Positive(message = "пробег должен быть положительным числом")
     private int mileage;
+    @Positive(message = "Цена должна быть положительным числом")
     private int price;
     private Transmission transmission;
     private int year;
-    private LocalDateTime created;
-    private LocalDateTime modified;
     private UserDTO seller;
     private ModelDTO model;
 
@@ -26,7 +30,7 @@ public class OfferDTO {
 
     }
 
-    public OfferDTO(UUID id, String description, Engine engine, String imageUrl, int mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, UserDTO seller, ModelDTO model) {
+    public OfferDTO(UUID id, String description, Engine engine, String imageUrl, int mileage, int price, Transmission transmission, int year, UserDTO seller, ModelDTO model) {
         this.id = id;
         this.description = description;
         this.engine = engine;
@@ -35,8 +39,6 @@ public class OfferDTO {
         this.price = price;
         this.transmission = transmission;
         this.year = year;
-        this.created = created;
-        this.modified = modified;
         this.seller = seller;
         this.model = model;
     }
@@ -105,22 +107,6 @@ public class OfferDTO {
         this.year = year;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
-
     public UserDTO getSeller() {
         return seller;
     }
@@ -148,8 +134,6 @@ public class OfferDTO {
                 ", price=" + price +
                 ", transmission=" + transmission +
                 ", year=" + year +
-                ", created=" + created +
-                ", modified=" + modified +
                 ", seller=" + seller +
                 ", model=" + model +
                 '}';

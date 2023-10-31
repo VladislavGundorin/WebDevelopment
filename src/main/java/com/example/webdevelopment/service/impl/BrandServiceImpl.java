@@ -4,12 +4,16 @@ import com.example.webdevelopment.dto.BrandDTO;
 import com.example.webdevelopment.model.Brand;
 import com.example.webdevelopment.repositorie.BrandRepository;
 import com.example.webdevelopment.service.BrandService;
+import com.example.webdevelopment.validation.ValidationUtil;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,15 +21,21 @@ import java.util.stream.Collectors;
 public class BrandServiceImpl implements BrandService {
     private final ModelMapper modelMapper;
     private final BrandRepository brandRepository;
+    private final ValidationUtil validationUtil;
 
     @Autowired
-    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper) {
+    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.brandRepository = brandRepository;
         this.modelMapper = modelMapper;
+        this.validationUtil = validationUtil;
     }
 
     @Override
     public BrandDTO createBrand(BrandDTO brandDTO) {
+        Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         Brand brand = modelMapper.map(brandDTO, Brand.class);
         Brand saveBrand = brandRepository.save(brand);
         return modelMapper.map(saveBrand, BrandDTO.class);
@@ -46,6 +56,10 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDTO updateBrandById(UUID id, BrandDTO brandDTO) {
+        Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         Optional<Brand> optionalBrand = brandRepository.findById(id);
         if (optionalBrand.isPresent()) {
             Brand brand = optionalBrand.get();

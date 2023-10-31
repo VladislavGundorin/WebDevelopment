@@ -17,4 +17,6 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
             "JOIN m.brand b " +
             "WHERE b.name = :brandName AND m.name = :modelName")
     List<String> findDescriptionsByBrandAndModel(@Param("brandName") String brandName, @Param("modelName") String modelName);
+
+    List<Offer> findAll();
 }

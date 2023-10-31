@@ -1,19 +1,22 @@
 package com.example.webdevelopment.dto;
 
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.UUID;
 
 public class BrandDTO {
     private UUID id;
+    @NotNull
+    @NotEmpty
+    @Length(min = 2,message = "поле должно содержать минимум 2 символа")
     private String name;
-    private LocalDateTime created;
-    private LocalDateTime modified;
 
-    public BrandDTO(UUID id, String name, LocalDateTime created, LocalDateTime modified) {
+    public BrandDTO(UUID id, String name) {
         this.id = id;
         this.name = name;
-        this.created = created;
-        this.modified = modified;
+
     }
     public BrandDTO(){
 
@@ -35,29 +38,11 @@ public class BrandDTO {
         this.name = name;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
-
     @Override
     public String toString() {
         return "BrandDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", created=" + created +
-                ", modified=" + modified +
                 '}';
     }
 }

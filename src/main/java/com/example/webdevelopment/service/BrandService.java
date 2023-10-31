@@ -1,7 +1,7 @@
 package com.example.webdevelopment.service;
 
 import com.example.webdevelopment.dto.BrandDTO;
-import com.example.webdevelopment.model.Brand;
+
 
 import java.util.List;
 import java.util.Optional;

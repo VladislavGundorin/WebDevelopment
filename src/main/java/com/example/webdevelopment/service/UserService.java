@@ -1,9 +1,10 @@
 package com.example.webdevelopment.service;
 
 import com.example.webdevelopment.dto.UserDTO;
-import com.example.webdevelopment.dto.UserRoleDTO;
 import com.example.webdevelopment.enums.Role;
+import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.model.User;
+import com.example.webdevelopment.views.UserViewModel;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -21,5 +22,12 @@ public interface UserService {
 
     void deleteUserById(UUID id);
 
-    List<Object[]> findUsersByRole(@Param("roleValue") Role role);
+    List<Object[]> getUsersByRole(@Param("roleValue") Role role);
+
+    UserViewModel getUserViewModelById(UUID id);
+
+    List<UserDTO> getUserByUsername(String username);
+
+    UserDTO registerUser(UserDTO userDTO);
+
 }

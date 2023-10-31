@@ -1,30 +1,35 @@
 package com.example.webdevelopment.dto;
 
 import com.example.webdevelopment.enums.Category;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ModelDTO {
     private UUID id;
+    @NotNull
+    @NotEmpty
+    @Length(min = 2,message = "поле должно содержать минимум 2 символа")
     private String name;
     private Category category;
+
     private int startYear;
     private int endYear;
-    private LocalDateTime created;
-    private LocalDateTime modified;
+    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
     private String imageUrl;
     private BrandDTO brand;
 
 
-    public ModelDTO(UUID id, String name, Category category, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, String imageUrl, BrandDTO brand) {
+    public ModelDTO(UUID id, String name, Category category, int startYear, int endYear, String imageUrl, BrandDTO brand) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.startYear = startYear;
         this.endYear = endYear;
-        this.created = created;
-        this.modified = modified;
         this.imageUrl = imageUrl;
         this.brand = brand;
 
@@ -73,22 +78,6 @@ public class ModelDTO {
         this.endYear = endYear;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -112,8 +101,6 @@ public class ModelDTO {
                 ", category=" + category +
                 ", startYear=" + startYear +
                 ", endYear=" + endYear +
-                ", created=" + created +
-                ", modified=" + modified +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", brand=" + brand +
                 '}';

@@ -1,28 +1,33 @@
 package com.example.webdevelopment.dto;
 
-import com.example.webdevelopment.enums.Role;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class UserDTO {
     private UUID id;
+    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String username;
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Пароль должен содержать не менее 8 символов и содержать по крайней мере одну строчную букву, одну заглавную букву и одну цифру.")
     private String password;
+    @NotBlank(message = "Поле имени не может быть пустым")
     private String firstName;
+    @NotBlank(message = "Поле фамилии не может бывть пустым")
     private String lastName;
     private boolean isActive;
+    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
     private String imageUrl;
     private UserRoleDTO role;
 
-    private LocalDateTime created;
-    private LocalDateTime modified;
+    private String email;
 
     public UserDTO(){
-
+        this.firstName = "DefaultFirstName";
+        this.lastName = "DefaultLastName";
     }
 
-    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, UserRoleDTO role, LocalDateTime created, LocalDateTime modified) {
+    public UserDTO(UUID id, String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, UserRoleDTO role, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,8 +36,7 @@ public class UserDTO {
         this.isActive = isActive;
         this.imageUrl = imageUrl;
         this.role = role;
-        this.created = created;
-        this.modified = modified;
+        this.email = email;
     }
 
     public UUID getId() {
@@ -99,20 +103,12 @@ public class UserDTO {
         this.role = role;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -126,8 +122,7 @@ public class UserDTO {
                 ", isActive=" + isActive +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", role=" + role +
-                ", created=" + created +
-                ", modified=" + modified +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

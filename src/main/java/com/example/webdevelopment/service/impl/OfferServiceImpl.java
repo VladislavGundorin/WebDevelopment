@@ -4,28 +4,37 @@ import com.example.webdevelopment.dto.OfferDTO;
 import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.repositorie.OfferRepository;
 import com.example.webdevelopment.service.OfferService;
+import com.example.webdevelopment.validation.ValidationUtil;
+import com.example.webdevelopment.views.OfferViewModel;
+import com.example.webdevelopment.views.UserViewModel;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class OfferServiceImpl implements OfferService {
     private final ModelMapper modelMapper;
     private final OfferRepository offerRepository;
+    private final ValidationUtil validationUtil;
 
     @Autowired
-    public OfferServiceImpl(ModelMapper modelMapper, OfferRepository offerRepository) {
+    public OfferServiceImpl(ModelMapper modelMapper, OfferRepository offerRepository, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
         this.offerRepository = offerRepository;
+        this.validationUtil = validationUtil;
     }
 
     @Override
     public OfferDTO createOffer(OfferDTO offerDTO) {
+        Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         Offer offer = modelMapper.map(offerDTO, Offer.class);
         Offer saveOffer = offerRepository.save(offer);
         return modelMapper.map(saveOffer, OfferDTO.class);
@@ -46,10 +55,20 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public OfferDTO updateOfferByID(UUID id, OfferDTO offerDTO) {
+        Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         Optional<Offer> optionalOffer = offerRepository.findById(id);
         if (optionalOffer.isPresent()) {
             Offer offer = optionalOffer.get();
             offer.setDescription(offerDTO.getDescription());
+            offer.setEngine(offerDTO.getEngine());
+            offer.setImageUrl(offerDTO.getImageUrl());
+            offer.setMileage(offerDTO.getMileage());
+            offer.setPrice(offerDTO.getPrice());
+            offer.setTransmission(offerDTO.getTransmission());
+            offer.setYear(offerDTO.getYear());
             Offer updateSeller = offerRepository.save(offer);
             return modelMapper.map(updateSeller, OfferDTO.class);
         } else {
@@ -85,5 +104,16 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.findDescriptionsByBrandAndModel(brandName,modelName);
     }
 
+    @Override
+    public List<OfferViewModel> getOfferDataForUserView() {
+        List<Offer> offers = offerRepository.findAll();
+        List<OfferViewModel> offerViewModels = new ArrayList<>();
 
+        for (Offer offerDTO : offers) {
+            OfferViewModel viewModel = new OfferViewModel(offerDTO.getImageUrl(), offerDTO.getMileage(), offerDTO.getPrice());
+            offerViewModels.add(viewModel);
+        }
+
+        return offerViewModels;
+    }
 }
