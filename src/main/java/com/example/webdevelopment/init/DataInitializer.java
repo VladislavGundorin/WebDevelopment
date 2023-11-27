@@ -11,6 +11,7 @@ import com.example.webdevelopment.model.Model;
 import com.example.webdevelopment.model.UserRole;
 import com.example.webdevelopment.repositorie.*;
 import com.example.webdevelopment.service.*;
+import com.example.webdevelopment.views.OfferViewModel;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -91,38 +92,38 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
 
             List<ModelDTO> models = new ArrayList<>();
             if (brandName.equals("BMW")) {
-                models.add(new ModelDTO(null, "3 Series", Category.CAR, 2018, 2022, "https://example.com/bmw3series.jpg", brandDTO));
-                models.add(new ModelDTO(null, "X5", Category.CAR, 2019, 2022, "https://example.com/bmwx5.jpg", brandDTO));
-                models.add(new ModelDTO(null, "M5", Category.CAR, 2019, 2023, "https://example.com/bmwm5.jpg", brandDTO));
-                models.add(new ModelDTO(null, "M1", Category.CAR, 2017, 2021, "https://example.com/bmwm1.jpg", brandDTO));
-                models.add(new ModelDTO(null, "M2", Category.CAR, 2016, 2023, "https://example.com/bmwm2.jpg", brandDTO));
-                models.add(new ModelDTO(null, "X3", Category.CAR, 2015, 2022, "https://example.com/bmwx3.jpg", brandDTO));
-                models.add(new ModelDTO(null, "X4", Category.CAR, 2016, 2023, "https://example.com/bmwx4.jpg", brandDTO));
+                models.add(new ModelDTO(null, "3 Series", Category.CAR, 2018, 2022, "/picture/x3_series.jpg", brandDTO));
+                models.add(new ModelDTO(null, "X5", Category.CAR, 2019, 2022, "/picture/x5.jpg", brandDTO));
+                models.add(new ModelDTO(null, "M5", Category.CAR, 2019, 2023, "/picture/bmw m5.jpg", brandDTO));
+                models.add(new ModelDTO(null, "M1", Category.CAR, 2017, 2021, "/picture/bmw m1.jpg", brandDTO));
+                models.add(new ModelDTO(null, "M2", Category.CAR, 2016, 2023, "/picture/m2.jpg", brandDTO));
+                models.add(new ModelDTO(null, "X3", Category.CAR, 2015, 2022, "/picture/bmw_x3.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "X4", Category.CAR, 2016, 2023, "https://example.com/bmwx4.jpg", brandDTO));
             } else if (brandName.equals("Audi")) {
-                models.add(new ModelDTO(null, "A4", Category.CAR, 2015, 2022, "https://example.com/audia4.jpg", brandDTO));
-                models.add(new ModelDTO(null, "Q5", Category.CAR, 2016, 2022, "https://example.com/audiq5.jpg", brandDTO));
-                models.add(new ModelDTO(null, "A3", Category.CAR, 2013, 2022, "https://example.com/audia3.jpg", brandDTO));
-                models.add(new ModelDTO(null, "Q8 e-tron", Category.CAR, 2019, 2023, "https://example.com/audiq8etron.jpg", brandDTO));
-                models.add(new ModelDTO(null, "A6", Category.CAR, 2018, 2023, "https://example.com/audia6.jpg", brandDTO));
-                models.add(new ModelDTO(null, "TT quattro sport", Category.CAR, 2017, 2022, "https://example.com/auditqquattrosport.jpg", brandDTO));
-                models.add(new ModelDTO(null, "TT RS", Category.CAR, 2016, 2022, "https://example.com/audittRS.jpg", brandDTO));
+                models.add(new ModelDTO(null, "A4", Category.CAR, 2015, 2022, "/picture/audi a4.jpeg", brandDTO));
+                models.add(new ModelDTO(null, "Q5", Category.CAR, 2016, 2022, "/picture/audi q5.jpg", brandDTO));
+                models.add(new ModelDTO(null, "A3", Category.CAR, 2013, 2022, "/picture/audi_a3.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "Q8 e-tron", Category.CAR, 2019, 2023, "https://example.com/audiq8etron.jpg", brandDTO));
+                models.add(new ModelDTO(null, "RS 6", Category.CAR, 2018, 2023, "/picture/audi_rs6.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "TT quattro sport", Category.CAR, 2017, 2022, "https://example.com/auditqquattrosport.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "TT RS", Category.CAR, 2016, 2022, "https://example.com/audittRS.jpg", brandDTO));
             } else if (brandName.equals("Honda")) {
-                models.add(new ModelDTO(null, "Legend", Category.CAR, 2000, 2022, "https://example.com/hondalegend.jpg", brandDTO));
-                models.add(new ModelDTO(null, "Saber", Category.CAR, 1995, 2003, "https://example.com/hondasaber.jpg", brandDTO));
-                models.add(new ModelDTO(null, "CR-V", Category.CAR, 1997, 2023, "https://example.com/hondacrv.jpg", brandDTO));
-                models.add(new ModelDTO(null, "Life", Category.CAR, 1971, 2022, "https://example.com/hondalife.jpg", brandDTO));
-                models.add(new ModelDTO(null, "S2000", Category.CAR, 1999, 2009, "https://example.com/hondas2000.jpg", brandDTO));
+                models.add(new ModelDTO(null, "Legend", Category.CAR, 2000, 2022, "/picture/honda legend.jpg", brandDTO));
+                models.add(new ModelDTO(null, "Saber", Category.CAR, 1995, 2003, "/picture/honda saber.jpg", brandDTO));
+                models.add(new ModelDTO(null, "CR-V", Category.CAR, 1997, 2023, "/picture/honda c-rv.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "Life", Category.CAR, 1971, 2022, "https://example.com/hondalife.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "S2000", Category.CAR, 1999, 2009, "https://example.com/hondas2000.jpg", brandDTO));
             } else if (brandName.equals("Ford")) {
-                models.add(new ModelDTO(null, "C-MAX", Category.CAR, 2012, 2023, "https://example.com/fordcmax.jpg", brandDTO));
-                models.add(new ModelDTO(null, "ECOSPORT", Category.CAR, 2013, 2023, "https://example.com/fordecosport.jpg", brandDTO));
-                models.add(new ModelDTO(null, "FIESTA", Category.CAR, 2008, 2023, "https://example.com/fordfiesta.jpg", brandDTO));
-                models.add(new ModelDTO(null, "FOCUS RS", Category.CAR, 2016, 2018, "https://example.com/fordfocusrs.jpg", brandDTO));
-                models.add(new ModelDTO(null, "FUSION", Category.CAR, 2005, 2020, "https://example.com/fordfusion.jpg", brandDTO));
+                models.add(new ModelDTO(null, "C-MAX", Category.CAR, 2012, 2023, "/picture/FordC-MAX.jpg", brandDTO));
+                models.add(new ModelDTO(null, "ECOSPORT", Category.CAR, 2013, 2023, "/picture/ford ecospor.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "FIESTA", Category.CAR, 2008, 2023, "https://example.com/fordfiesta.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "FOCUS RS", Category.CAR, 2016, 2018, "https://example.com/fordfocusrs.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "FUSION", Category.CAR, 2005, 2020, "https://example.com/fordfusion.jpg", brandDTO));
             } else if (brandName.equals("HAVAL")) {
-                models.add(new ModelDTO(null, "HAVAL M6", Category.CAR, 2019, 2023, "https://example.com/havalm6.jpg", brandDTO));
-                models.add(new ModelDTO(null, "HAVAL JOLION", Category.CAR, 2020, 2023, "https://example.com/havaljolion.jpg", brandDTO));
-                models.add(new ModelDTO(null, "HAVAL DARGO", Category.CAR, 2018, 2022, "https://example.com/havaldargo.jpg", brandDTO));
-                models.add(new ModelDTO(null, "HAVAL F7", Category.CAR, 2017, 2022, "https://example.com/havalf7.jpg", brandDTO));
+                models.add(new ModelDTO(null, "HAVAL M6", Category.CAR, 2019, 2023, "/picture/Haval_H6.jpg", brandDTO));
+                models.add(new ModelDTO(null, "HAVAL JOLION", Category.CAR, 2020, 2023, "/picture/haval jolian.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "HAVAL DARGO", Category.CAR, 2018, 2022, "https://example.com/havaldargo.jpg", brandDTO));
+//                models.add(new ModelDTO(null, "HAVAL F7", Category.CAR, 2017, 2022, "https://example.com/havalf7.jpg", brandDTO));
 
             }
             for (ModelDTO modelDTO : models) {
@@ -142,17 +143,46 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
             OfferDTO offerDTO = new OfferDTO();
             offerDTO.setDescription(faker.lorem().sentence());
             offerDTO.setEngine(Engine.values()[faker.random().nextInt(Engine.values().length)]);
-            offerDTO.setImageUrl(faker.internet().image());
             offerDTO.setMileage(faker.random().nextInt(1000, 100000));
             offerDTO.setPrice(faker.random().nextInt(900000, 5000000));
             offerDTO.setTransmission(Transmission.values()[faker.random().nextInt(Transmission.values().length)]);
             offerDTO.setYear(faker.random().nextInt(2016, 2020));
-            offerDTO.setSeller(userDTOList.get(random.nextInt(userDTOList.size())));
-            offerDTO.setModel(modelDTOList.get(random.nextInt(modelDTOList.size())));
-            offerService.createOffer(offerDTO);
+
+            // Выберите бренд случайным образом
+            BrandDTO brandDTO = new BrandDTO();
+            brandDTO.setName(carBrands[random.nextInt(carBrands.length)]);
+
+            // Выберите модели для выбранного бренда
+            List<ModelDTO> brandModels = modelService.getModelsByBrandName(brandDTO.getName());
+
+            // Проверка наличия моделей
+            if (!brandModels.isEmpty()) {
+                ModelDTO modelDTO = brandModels.get(random.nextInt(brandModels.size()));
+                offerDTO.setSeller(userDTOList.get(random.nextInt(userDTOList.size())));
+                offerDTO.setModel(modelDTO);
+                offerDTO.setImageUrl(modelDTO.getImageUrl());  // Установка изображения из модели
+                offerService.createOffer(offerDTO);
+            }
+        }
+        List<OfferDTO> offerDTOList = offerService.getAllOffers();
+        List<OfferViewModel> offerViewModels = new ArrayList<>();
+
+        for (OfferDTO offerDTO : offerDTOList) {
+            BrandDTO brandDTO = offerDTO.getModel().getBrand();
+            ModelDTO modelDTO = offerDTO.getModel();
+
+            OfferViewModel offerViewModel = new OfferViewModel(
+                    offerDTO.getId(),
+                    brandDTO.getName(),
+                    modelDTO.getName(),
+                    offerDTO.getPrice(),
+                    modelDTO.getImageUrl()
+            );
+
+            offerViewModels.add(offerViewModel);
         }
     }
-}
+    }
 //        offerService.getDescriptionsByBrandAndModel("Audi", "TT RS").forEach(System.out::println);
 //        modelService.getModelsByBrandAndStartYear("BMW", 2015).forEach(System.out::println);
 //        List<Object[]> results = userRepository.findUsersByRole(Role.ADMIN);

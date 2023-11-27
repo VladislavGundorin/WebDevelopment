@@ -15,7 +15,6 @@ public class OfferDTO {
     @Length(max = 1024,message = "Описание не должно быть пустым.")
     private String description;
     private Engine engine;
-    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
     private String imageUrl;
     @Positive(message = "пробег должен быть положительным числом")
     private int mileage;

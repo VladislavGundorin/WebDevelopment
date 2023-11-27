@@ -10,6 +10,8 @@ import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +43,7 @@ public class BrandServiceImpl implements BrandService {
         return modelMapper.map(saveBrand, BrandDTO.class);
     }
 
+
     @Override
     public List<BrandDTO> getAllBrands() {
         List<Brand> barnds = brandRepository.findAll();
@@ -49,9 +52,12 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Optional<BrandDTO> getBrandById(UUID id) {
+    public BrandDTO getBrandById(UUID id) {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
-        return optionalBrand.map(brand -> modelMapper.map(brand, BrandDTO.class));
+        if (optionalBrand.isPresent()) {
+            return modelMapper.map(optionalBrand.get(), (BrandDTO.class));
+        }
+        return null;
     }
 
     @Override
@@ -76,6 +82,7 @@ public class BrandServiceImpl implements BrandService {
         brandRepository.deleteById(id);
     }
 
+
     @Override
     public List<BrandDTO> getBrandByName(String name) {
         List<Brand> brands = brandRepository.findByName(name);
@@ -88,7 +95,6 @@ public class BrandServiceImpl implements BrandService {
     public List<Object[]> getBrandWithLowestMileageAndPrice() {
         return brandRepository.findBrandWithLowestMileageAndPrice();
     }
-
 
 }
 

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "offers")
-public class Offer extends BaseEntity {
+public class Offer extends BaseEntity implements ImageUrlProvider{
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
@@ -77,14 +77,6 @@ public class Offer extends BaseEntity {
 
     public void setEngine(Engine engine) {
         this.engine = engine;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public Integer getMileage() {
@@ -156,7 +148,6 @@ public class Offer extends BaseEntity {
         return "Offer{" +
                 "description='" + description + '\'' +
                 ", engine=" + engine +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", mileage=" + mileage +
                 ", price=" + price +
                 ", transmission=" + transmission +
@@ -167,6 +158,15 @@ public class Offer extends BaseEntity {
                 ", model=" + model +
                 ", id=" + id +
                 "} " + super.toString();
+    }
+    @Override
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    @Override
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
 

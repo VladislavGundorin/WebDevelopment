@@ -12,7 +12,7 @@ public interface BrandService {
 
     List<BrandDTO> getAllBrands();
 
-    Optional<BrandDTO> getBrandById(UUID id);
+    BrandDTO getBrandById(UUID id);
 
     BrandDTO updateBrandById(UUID id,BrandDTO brandDTO);
 

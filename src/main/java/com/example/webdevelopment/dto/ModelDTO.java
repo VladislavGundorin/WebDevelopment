@@ -19,7 +19,6 @@ public class ModelDTO {
 
     private int startYear;
     private int endYear;
-    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
     private String imageUrl;
     private BrandDTO brand;
 

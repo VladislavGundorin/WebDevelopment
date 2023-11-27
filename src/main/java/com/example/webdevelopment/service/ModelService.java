@@ -11,11 +11,13 @@ public interface ModelService {
 
     List<ModelDTO> getAllModels();
 
-    Optional<ModelDTO> getModelById(UUID id);
+    ModelDTO getModelById(UUID id);
 
     ModelDTO updateModelById(UUID id, ModelDTO modelDTO);
 
     void deleteModelById(UUID id);
 
     List<String> getModelsByBrandAndStartYear(String brandName,int yearstart);
+
+    List<ModelDTO> getModelsByBrandName(String brandName);
 }

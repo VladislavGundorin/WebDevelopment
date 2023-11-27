@@ -1,19 +1,50 @@
 package com.example.webdevelopment.views;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
 
-public class OfferViewModel {
-    @Pattern(regexp = "^(http|https)://[a-zA-Z0-9./]+$", message = "Неверный URL формат")
+import com.example.webdevelopment.dto.BrandDTO;
+import com.example.webdevelopment.model.BaseEntity;
+
+import java.util.UUID;
+
+public class OfferViewModel extends BaseEntity {
+    private UUID id;
     private String imageUrl;
-    @Positive(message = "пробег должен быть положительным числом")
-    private int mileage;
-    @Positive(message = "Цена должна быть положительным числом")
+    private String brandName;
+    private String modelName;
     private int price;
 
-    public OfferViewModel(String imageUrl, int mileage, int price) {
+    public OfferViewModel(UUID id,String brandName, String modelName, int price, String imageUrl) {
+        this.id = id;
+        this.brandName = brandName;
+        this.modelName = modelName;
+        this.price = price;
         this.imageUrl = imageUrl;
-        this.mileage = mileage;
+    }
+    public UUID getId(){
+        return id;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -25,19 +56,13 @@ public class OfferViewModel {
         this.imageUrl = imageUrl;
     }
 
-    public int getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
+    @Override
+    public String toString() {
+        return "OfferViewModel{" +
+                "imageUrl='" + imageUrl + '\'' +
+                ", brandName='" + brandName + '\'' +
+                ", modelName='" + modelName + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

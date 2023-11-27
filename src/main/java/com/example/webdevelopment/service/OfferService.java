@@ -13,7 +13,7 @@ public interface OfferService {
 
     List<OfferDTO> getAllOffers();
 
-    Optional<OfferDTO> getOfferById(UUID id);
+    OfferDTO getOfferById(UUID id);
 
     OfferDTO updateOfferByID(UUID id,OfferDTO offerDTO);
 

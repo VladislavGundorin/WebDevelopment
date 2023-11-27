@@ -3,12 +3,14 @@ package com.example.webdevelopment.controllers.model;
 import com.example.webdevelopment.dto.ModelDTO;
 import com.example.webdevelopment.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 @RequestMapping("/models")
 public class ModelController {
     private final ModelService modelService;
@@ -18,23 +20,33 @@ public class ModelController {
         this.modelService = modelService;
     }
     @GetMapping("/allmodels")
-    public List<ModelDTO> getAllModels(){
-        return modelService.getAllModels();
+    public String getAllModels(Model model) {
+        List<ModelDTO> modelDTOS = modelService.getAllModels();
+        model.addAttribute("models", modelDTOS);
+        return "models-all";
     }
-    @GetMapping("/getmodel/{id}")
-    public ModelDTO getNoledById(@PathVariable UUID id){
-        return modelService.getModelById(id).orElse(null);
+    @GetMapping("/details/{model-id}")
+    public String modelDetails(@PathVariable("model-id") UUID modelId, Model model){
+        ModelDTO modelDTO = modelService.getModelById(modelId);
+        model.addAttribute("modelsDetails", modelDTO);
+        return "models-details";
     }
+
     @GetMapping("/brand-startYear")
     public List<String> getModelsByBrandAndStartYear(@RequestParam String brandname,@RequestParam int yearstart){
         return modelService.getModelsByBrandAndStartYear(brandname, yearstart);
     }
-    @DeleteMapping("/id")
+    @DeleteMapping("/delete/id")
     public void deleteModelById(@PathVariable UUID id){
         modelService.deleteModelById(id);
     }
     @PostMapping("/create")
     public ModelDTO createModel(@RequestBody ModelDTO modelDTO){
         return modelService.createModel(modelDTO);
+    }
+    @PostMapping("/delete/models/{id}")
+    public String deleteModel(@PathVariable UUID id) {
+        modelService.deleteModelById(id);
+        return "redirect:/models/allmodels";
     }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+                <h2 class="text-center text-dark mt-5">Список всех предложений</h2>
+                <div th:each="offer : ${offers}" class="d-flex flex-column bg-text mb-3">
+                    <img th:src="${offer.imageUrl}" alt="Offer Image" class="img-fluid">
+                    <h4 th:text="${'Price: ' + offer.price}"></h4>
+                    <h4 th:text="${'Mileage: ' + offer.mileage}"></h4>
+                    <h4 th:text="${'Price: ' + offer.price}"></h4>
+                    <h4 th:text="${'Year: ' + offer.year}"></h4>
+                    <h4><a class="btn-block"
+                           th:href="@{/offers/details/{offer-id}(offer-id=${offer.id})}">Подробная информация</a></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

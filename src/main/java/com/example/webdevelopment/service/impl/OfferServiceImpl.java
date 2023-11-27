@@ -1,6 +1,8 @@
 package com.example.webdevelopment.service.impl;
 
 import com.example.webdevelopment.dto.OfferDTO;
+import com.example.webdevelopment.model.Brand;
+import com.example.webdevelopment.model.Model;
 import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.repositorie.OfferRepository;
 import com.example.webdevelopment.service.OfferService;
@@ -48,9 +50,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public Optional<OfferDTO> getOfferById(UUID id) {
-        Optional<Offer> optionalOffer = offerRepository.findById(id);
-        return optionalOffer.map(offer -> modelMapper.map(offer, OfferDTO.class));
+    public OfferDTO getOfferById(UUID id) {
+        Optional<Offer> offerOptional = offerRepository.findById(id);
+        if (offerOptional.isPresent()) {
+            return modelMapper.map(offerOptional.get(), OfferDTO.class);
+        }
+        return null;
     }
 
     @Override
@@ -109,11 +114,23 @@ public class OfferServiceImpl implements OfferService {
         List<Offer> offers = offerRepository.findAll();
         List<OfferViewModel> offerViewModels = new ArrayList<>();
 
-        for (Offer offerDTO : offers) {
-            OfferViewModel viewModel = new OfferViewModel(offerDTO.getImageUrl(), offerDTO.getMileage(), offerDTO.getPrice());
+        for (Offer offer : offers) {
+            Brand brand = offer.getModel().getBrand();
+            Model model = offer.getModel();
+
+            OfferViewModel viewModel = new OfferViewModel(
+
+                    offer.getId(),
+                    brand.getName(),
+                    model.getName(),
+                    offer.getPrice(),
+                    model.getImageUrl()
+            );
+
             offerViewModels.add(viewModel);
         }
 
         return offerViewModels;
     }
+
 }

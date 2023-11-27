@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "models")
-public class Model extends BaseEntity {
+public class Model extends BaseEntity implements ImageUrlProvider{
     @Column(name = "name")
     private String name;
 
@@ -39,10 +39,10 @@ public class Model extends BaseEntity {
 
     }
 
-    public Model(String name, Category category, String imageUrl, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, Brand brand) {
+    public Model(String name,String imageUrl, Category category, int startYear, int endYear, LocalDateTime created, LocalDateTime modified, Brand brand) {
         this.name = name;
-        this.category = category;
         this.imageUrl = imageUrl;
+        this.category = category;
         this.startYear = startYear;
         this.endYear = endYear;
         this.created = created;
@@ -66,13 +66,6 @@ public class Model extends BaseEntity {
         this.category = category;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public int getStartYear() {
         return startYear;
@@ -127,7 +120,6 @@ public class Model extends BaseEntity {
         return "Model{" +
                 "name='" + name + '\'' +
                 ", category=" + category +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", startYear=" + startYear +
                 ", endYear=" + endYear +
                 ", created=" + created +
@@ -135,5 +127,15 @@ public class Model extends BaseEntity {
                 ", brand=" + brand +
                 ", id=" + id +
                 "} " + super.toString();
+    }
+
+    @Override
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+
+    @Override
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

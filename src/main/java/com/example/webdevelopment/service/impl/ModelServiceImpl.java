@@ -49,9 +49,12 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public Optional<ModelDTO> getModelById(UUID id) {
-        Optional<Model> optionalModel = modelRepository.findById(id);
-        return optionalModel.map(model -> modelMapper.map(model, ModelDTO.class));
+    public ModelDTO getModelById(UUID id) {
+        Optional<Model> modelOptional = modelRepository.findById(id);
+        if (modelOptional.isPresent()) {
+            return modelMapper.map(modelOptional.get(), ModelDTO.class);
+        }
+        return null;
     }
 
     @Override
@@ -83,6 +86,14 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public List<String> getModelsByBrandAndStartYear(String brandName, int yearstart) {
         return modelRepository.findModelsByBrandAndStartYear(brandName,yearstart);
+    }
+
+    @Override
+    public List<ModelDTO> getModelsByBrandName(String brandName) {
+        List<Model> models = modelRepository.findByBrandName(brandName);
+        return models.stream()
+                .map(model -> modelMapper.map(model, ModelDTO.class))
+                .collect(Collectors.toList());
     }
 
 }

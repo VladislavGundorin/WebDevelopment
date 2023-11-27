@@ -15,5 +15,6 @@ public interface ModelRepository extends JpaRepository<Model, UUID> {
     List<String> findModelsByBrandAndStartYear(@Param("brandName") String brandName, @Param("yearstart") int yearstart);
 //    @Query("SELECT m.name FROM Model m JOIN m.brand b WHERE b.name = :brandName AND m.startYear >= :startYear ORDER BY m.startYear DESC")
 //    List<String> findModelsByBrandAndStartYear(String brandName, int startYear);
+    List<Model> findByBrandName(String brandName);
 
 }

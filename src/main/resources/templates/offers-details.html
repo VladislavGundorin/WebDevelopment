@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+        <div class="justify-content-center">
+          <h1>Подробная информация</h1>
+        </div>
+        <div class="row bg-light rounded">
+          <div class="col-md-6 pt-3">
+            <h2>Offer</h2>
+              <img th:src="${offerDetails.imageUrl}" alt="Offer Image" class="img-fluid">
+            <h4 th:text="'Description: ' + ${offerDetails.description}"></h4>
+            <h4 th:text="'Engine: ' + ${offerDetails.engine}"></h4>
+            <h4 th:text="'Mileage: ' + ${offerDetails.mileage}"></h4>
+            <h4 th:text="'Price: ' + ${offerDetails.price}"></h4>
+            <h4 th:text="'Transmission: ' + ${offerDetails.transmission}"></h4>
+            <h4 th:text="'Year: ' + ${offerDetails.year}"></h4>
+              <h4 th:text="${'Seller: ' + offerDetails.seller.firstName + ' ' + offerDetails.seller.lastName}"></h4>
+              <h4 th:text="${'Model: ' + offerDetails.model.name + ', Brand: ' + offerDetails.model.brand.name}"></h4>
+              <div class="align-bottom">
+                  <form th:action="@{/offers/delete/offers/{id}(id=${offerDetails.id})}" method="post">
+                      <button type="submit" class="btn btn-danger align-bottom">Удалить карточку</button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>
+
