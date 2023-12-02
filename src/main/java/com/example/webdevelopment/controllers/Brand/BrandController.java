@@ -26,12 +26,15 @@ public class BrandController {
         model.addAttribute("brands", brandDTOs);
         return "brands-all";
     }
-//    @GetMapping("/brand-details/{brand-id}")
-//    public String brandDetails(@PathVariable("brand-id") UUID brandId, Model model) {
-//        BrandDTO brandDTO = brandService.getBrandById(brandId);
-//        model.addAttribute("brandDetails", brandDTO);
-//        return "brands-details";
-//    }
+
+    @GetMapping("/create")
+    public String createBrand(){
+        return "brands-add";
+    }
+    @ModelAttribute("brandModel")
+    public BrandDTO initBrand(){
+        return new BrandDTO();
+    }
 
     @GetMapping("/getByBrandName")
     public List<BrandDTO> getBrandByName(@RequestParam String name) {
@@ -42,15 +45,13 @@ public class BrandController {
     public List<Object[]> getBrandWithLowestMileageAndPrice() {
         return brandService.getBrandWithLowestMileageAndPrice();
     }
-//    @DeleteMapping("/delete/brands/{id}")
-//    public String deleteBrandById(@PathVariable UUID id) {
-//        brandService.deleteBrandById(id);
-//        return "redirect:/brands/allbrands"; // Перенаправление после удаления
-//    }
-    @PostMapping("brands/create")
-    public BrandDTO createBrand(@RequestBody BrandDTO brandDTO) {
-        return brandService.createBrand(brandDTO);
+
+    @PostMapping("/create")
+    public String createBrand(@ModelAttribute("brandDTO") BrandDTO brandDTO) {
+        brandService.createBrand(brandDTO);
+        return "redirect:/brands/create";
     }
+
     @PostMapping("/delete/brands/{id}")
     public String deleteBrand(@PathVariable UUID id) {
         brandService.deleteBrandById(id);

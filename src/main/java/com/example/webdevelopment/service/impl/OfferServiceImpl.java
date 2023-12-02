@@ -1,14 +1,21 @@
 package com.example.webdevelopment.service.impl;
 
+import com.example.webdevelopment.dto.BrandDTO;
+import com.example.webdevelopment.dto.ModelDTO;
 import com.example.webdevelopment.dto.OfferDTO;
+import com.example.webdevelopment.dto.UserDTO;
 import com.example.webdevelopment.model.Brand;
 import com.example.webdevelopment.model.Model;
 import com.example.webdevelopment.model.Offer;
+import com.example.webdevelopment.model.User;
+import com.example.webdevelopment.repositorie.BrandRepository;
+import com.example.webdevelopment.repositorie.ModelRepository;
 import com.example.webdevelopment.repositorie.OfferRepository;
+import com.example.webdevelopment.repositorie.UserRepository;
 import com.example.webdevelopment.service.OfferService;
 import com.example.webdevelopment.validation.ValidationUtil;
 import com.example.webdevelopment.views.OfferViewModel;
-import com.example.webdevelopment.views.UserViewModel;
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
@@ -23,24 +30,70 @@ public class OfferServiceImpl implements OfferService {
     private final ModelMapper modelMapper;
     private final OfferRepository offerRepository;
     private final ValidationUtil validationUtil;
+    private final ModelRepository modelRepository;
+    private final BrandRepository brandRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public OfferServiceImpl(ModelMapper modelMapper, OfferRepository offerRepository, ValidationUtil validationUtil) {
+    public OfferServiceImpl(ModelMapper modelMapper, OfferRepository offerRepository, ValidationUtil validationUtil,ModelRepository modelRepository, BrandRepository brandRepository,UserRepository userRepository) {
         this.modelMapper = modelMapper;
         this.offerRepository = offerRepository;
         this.validationUtil = validationUtil;
+        this.modelRepository = modelRepository;
+        this.brandRepository = brandRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
+    @Transactional
     public OfferDTO createOffer(OfferDTO offerDTO) {
         Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+
+        UserDTO sellerDTO = offerDTO.getSeller();
+
+        List<User> existingSellers = userRepository.findByFirstNameAndLastName(sellerDTO.getFirstName(), sellerDTO.getLastName());
+
+        User seller;
+        if (existingSellers.isEmpty()) {
+            seller = modelMapper.map(sellerDTO, User.class);
+            seller = userRepository.save(seller);
+        } else {
+            seller = existingSellers.get(0);
+        }
+
+        BrandDTO brandDTO = offerDTO.getModel().getBrand();
+        Brand brand;
+
+        List<Brand> existingBrands = brandRepository.findByName(brandDTO.getName());
+
+        if (!existingBrands.isEmpty()) {
+            brand = existingBrands.get(0);
+        } else {
+            brand = brandRepository.save(modelMapper.map(brandDTO, Brand.class));
+        }
+
+        ModelDTO modelDTO = offerDTO.getModel();
+        Model model = modelMapper.map(modelDTO, Model.class);
+
+        if (modelDTO.getId() == null) {
+            model.setBrand(brand);
+            model = modelRepository.save(model);
+        }
+
         Offer offer = modelMapper.map(offerDTO, Offer.class);
-        Offer saveOffer = offerRepository.save(offer);
-        return modelMapper.map(saveOffer, OfferDTO.class);
+
+        offer.setModel(model);
+        offer.setSeller(seller);
+
+        Offer savedOffer = offerRepository.save(offer);
+
+        return modelMapper.map(savedOffer, OfferDTO.class);
     }
+
+
 
     @Override
     public List<OfferDTO> getAllOffers() {

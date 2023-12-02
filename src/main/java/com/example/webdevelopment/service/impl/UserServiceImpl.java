@@ -2,7 +2,6 @@ package com.example.webdevelopment.service.impl;
 
 import com.example.webdevelopment.dto.UserDTO;
 import com.example.webdevelopment.enums.Role;
-import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.model.User;
 import com.example.webdevelopment.repositorie.UserRepository;
 import com.example.webdevelopment.service.UserService;
@@ -122,5 +121,11 @@ public class UserServiceImpl implements UserService {
 
         return modelMapper.map(savedUser, UserDTO.class);
     }
+
+    @Override
+    public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
+        return userRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
 }
 

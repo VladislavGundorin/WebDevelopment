@@ -1,56 +1,95 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head th:replace="~{fragments/head}"/>-->
-<!--<body class="d-flex flex-column h-100">-->
-<!--<div th:replace="~{fragments/navbar}">Navbar</div>-->
-<!--<div class="flex-shrink-0">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-2"></div>-->
-<!--            <div class="jumbotron text-center rounded col-md-12 align-self-center pt-5">-->
-<!--                <div class="justify-content-center">-->
-<!--                    <h1>Add Offer</h1>-->
-<!--                </div>-->
-<!--                <form th:action="@{/offers/add}"-->
-<!--                      th:method="post"-->
-<!--                      th:object="${offerDTO}"-->
-<!--                      class="m-md-auto w-50 pb-3">-->
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<div class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Добавление предложения</h1>
+                </div>
+                <form th:action="@{/offers/create}"
+                      th:method="post"
+                      th:object="${offerModel}"
+                      class="m-md-auto w-50 pb-3">
 
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label" for="engine">Engine</label>-->
-<!--                        <input th:field="*{engine}"-->
-<!--                               th:errorclass="is-invalid"-->
-<!--                               type="text" class="form-control text-center"-->
-<!--                               id="engine" aria-describedby="engine" name="engine"/>-->
-<!--                        <small th:if="${#fields.hasErrors('engine')}" th:errors="*{engine}" class="text-danger">Error message</small>-->
-<!--                    </div>-->
+                    <div>
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
 
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label" for="modelName">Model Name</label>-->
-<!--                        <input th:field="*{model.name}"-->
-<!--                               th:errorclass="is-invalid"-->
-<!--                               type="text" class="form-control text-center"-->
-<!--                               id="modelName" aria-describedby="modelName" name="modelName"/>-->
-<!--                        <small th:if="${#fields.hasErrors('model.name')}" th:errors="*{model.name}" class="text-danger">Error message</small>-->
-<!--                    </div>-->
+                    <div>
+                        <label for="engine">Engine:</label>
+                        <select id="engine" name="engine" required>
+                            <option th:each="engine : ${T(com.example.webdevelopment.enums.Engine).values()}"
+                                    th:value="${engine}" th:text="${engine.name()}"></option>
+                        </select>
+                    </div>
 
-<!--                    <div class="mb-3">-->
-<!--                        <label class="form-label" for="brandName">Brand Name</label>-->
-<!--                        <input th:field="*{model.brand.name}"-->
-<!--                               th:errorclass="is-invalid"-->
-<!--                               type="text" class="form-control text-center"-->
-<!--                               id="brandName" aria-describedby="brandName" name="brandName"/>-->
-<!--                        <small th:if="${#fields.hasErrors('model.brand.name')}" th:errors="*{model.brand.name}" class="text-danger">Error message</small>-->
-<!--                    </div>-->
+                    <div>
+                        <label for="imageUrl">Image URL:</label>
+                        <input type="url" id="imageUrl" name="imageUrl">
+                    </div>
 
-<!--                    &lt;!&ndash; Добавьте другие поля предложения и связанных классов &ndash;&gt;-->
+                    <div>
+                        <label for="mileage">Mileage:</label>
+                        <input type="number" id="mileage" name="mileage" required>
+                    </div>
 
-<!--                    <button type="submit" class="btn btn-secondary">Add Offer</button>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--<footer th:replace="~{fragments/footer}"/>-->
-<!--</html>-->
+                    <div>
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" required>
+                    </div>
+
+                    <div>
+                        <label for="transmission">Transmission:</label>
+                        <select id="transmission" name="transmission" required>
+                            <option th:each="transmission : ${T(com.example.webdevelopment.enums.Transmission).values()}"
+                                    th:value="${transmission}" th:text="${transmission.name()}"></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="year">Year:</label>
+                        <input type="number" id="year" name="year" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="sellerFirstName">Seller First Name</label>
+                        <input th:field="*{seller.firstName}"
+                               type="text" class="form-control text-center"
+                               id="sellerFirstName" aria-describedby="sellerFirstName" name="sellerFirstName"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="sellerLastName">Seller Last Name</label>
+                        <input th:field="*{seller.lastName}"
+                               type="text" class="form-control text-center"
+                               id="sellerLastName" aria-describedby="sellerLastName" name="sellerLastName"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="modelName">Model Name</label>
+                        <input th:field="*{model.name}"
+                               type="text" class="form-control text-center"
+                               id="modelName" aria-describedby="modelName" name="modelName"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="brandName">Brand Name</label>
+                        <input th:field="*{model.brand.name}"
+                               type="text" class="form-control text-center"
+                               id="brandName" aria-describedby="brandName" name="brandName"/>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-secondary">Добавить предложение</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer th:replace="~{fragments/footer}"/>
+</html>

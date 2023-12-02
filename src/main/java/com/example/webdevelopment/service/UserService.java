@@ -30,4 +30,6 @@ public interface UserService {
 
     UserDTO registerUser(UserDTO userDTO);
 
+    List<User> getByFirstNameAndLastName(String firstName, String lastName);
+
 }

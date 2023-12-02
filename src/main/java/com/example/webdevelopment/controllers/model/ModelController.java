@@ -40,9 +40,19 @@ public class ModelController {
     public void deleteModelById(@PathVariable UUID id){
         modelService.deleteModelById(id);
     }
+
+    @ModelAttribute("modelModel")
+    public ModelDTO initModel(){
+        return  new ModelDTO();
+    }
+    @GetMapping("/create")
+    public String createModel(){
+        return "models-add";
+    }
     @PostMapping("/create")
-    public ModelDTO createModel(@RequestBody ModelDTO modelDTO){
-        return modelService.createModel(modelDTO);
+    public String createModel(@ModelAttribute("modelDTO")ModelDTO modelDTO){
+        modelService.createModel(modelDTO);
+        return "redirect:/models/create";
     }
     @PostMapping("/delete/models/{id}")
     public String deleteModel(@PathVariable UUID id) {

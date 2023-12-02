@@ -38,9 +38,10 @@ public class BrandServiceImpl implements BrandService {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+
         Brand brand = modelMapper.map(brandDTO, Brand.class);
-        Brand saveBrand = brandRepository.save(brand);
-        return modelMapper.map(saveBrand, BrandDTO.class);
+        Brand savedBrand = brandRepository.save(brand);
+        return modelMapper.map(savedBrand, BrandDTO.class);
     }
 
 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+                <h2 class="text-center text-dark mt-5">Добавить модель</h2>
+                <form th:action="@{/models/create}"
+                      method="post"
+                      th:object="${modelModel}">
+                    <div>
+                        <label for="modelName">Model Name:</label>
+                        <input type="text" id="modelName" name="name" required minlength="2">
+                    </div>
+
+                    <div>
+                        <label for="modelCategory">Model Category:</label>
+                        <select id="modelCategory" name="category" required>
+                            <option th:each="category : ${T(com.example.webdevelopment.enums.Category).values()}"
+                                    th:value="${category}" th:text="${category.name()}"></option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="startYear">Start Year:</label>
+                        <input type="number" id="startYear" name="startYear" required>
+                    </div>
+
+                    <div>
+                        <label for="endYear">End Year:</label>
+                        <input type="number" id="endYear" name="endYear" required>
+                    </div>
+
+                    <div>
+                        <label for="imageUrl">Image URL:</label>
+                        <input type="url" id="imageUrl" name="imageUrl">
+                    </div>
+
+                    <div>
+                        <label for="brandName">Brand Name:</label>
+                        <input type="text" id="brandName" name="brandName">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Добавить бренд</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

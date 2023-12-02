@@ -21,10 +21,6 @@ public class OfferController {
         this.offerService = offerService;
     }
 
-    @PostMapping("offer/create")
-    public OfferDTO createOffer(@RequestBody OfferDTO offerDTO) {
-        return offerService.createOffer(offerDTO);
-    }
 
     @GetMapping("/alloffers")
     public String getAllOffers(Model model){
@@ -58,5 +54,18 @@ public class OfferController {
     public String deleteOffer(@PathVariable UUID id) {
         offerService.deleteOfferById(id);
         return "redirect:/offers/alloffers";
+    }
+    @GetMapping("/create")
+    public String createOffer(){
+        return "offers-add";
+    }
+    @ModelAttribute("offerModel")
+    public OfferDTO initOffer(){
+        return new OfferDTO();
+    }
+    @PostMapping("/create")
+    public String createOffer(@ModelAttribute("offerDTO")OfferDTO offerDTO){
+        offerService.createOffer(offerDTO);
+        return "redirect:/offers/create";
     }
 }

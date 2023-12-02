@@ -13,7 +13,6 @@
                     <img th:src="${offer.imageUrl}" alt="Offer Image" class="img-fluid">
                     <h4 th:text="${'Price: ' + offer.price}"></h4>
                     <h4 th:text="${'Mileage: ' + offer.mileage}"></h4>
-                    <h4 th:text="${'Price: ' + offer.price}"></h4>
                     <h4 th:text="${'Year: ' + offer.year}"></h4>
                     <h4><a class="btn-block"
                            th:href="@{/offers/details/{offer-id}(offer-id=${offer.id})}">Подробная информация</a></h4>
