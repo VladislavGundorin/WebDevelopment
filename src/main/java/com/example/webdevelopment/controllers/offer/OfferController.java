@@ -46,10 +46,17 @@ public class OfferController {
             @RequestParam(name = "modelname") String modelName) {
         return offerService.getDescriptionsByBrandAndModel(brandName, modelName);
     }
+//    @GetMapping("/offer-view")
+//    public List<OfferViewModel> getOfferDataForUserView() {
+//        return offerService.getOfferDataForUserView();
+//    }
     @GetMapping("/offer-view")
-    public List<OfferViewModel> getOfferDataForUserView() {
-        return offerService.getOfferDataForUserView();
+    public String getOfferView(Model model) {
+        List<OfferViewModel> offers = offerService.getOfferDataForUserView();
+        model.addAttribute("offers", offers);
+        return "OfferViewModel";
     }
+
     @PostMapping("/delete/offers/{id}")
     public String deleteOffer(@PathVariable UUID id) {
         offerService.deleteOfferById(id);

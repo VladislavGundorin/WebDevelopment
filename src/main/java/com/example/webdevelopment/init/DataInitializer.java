@@ -165,22 +165,22 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
             }
         }
         List<OfferDTO> offerDTOList = offerService.getAllOffers();
-        List<OfferViewModel> offerViewModels = new ArrayList<>();
-
-        for (OfferDTO offerDTO : offerDTOList) {
-            BrandDTO brandDTO = offerDTO.getModel().getBrand();
-            ModelDTO modelDTO = offerDTO.getModel();
-
-            OfferViewModel offerViewModel = new OfferViewModel(
-                    offerDTO.getId(),
-                    brandDTO.getName(),
-                    modelDTO.getName(),
-                    offerDTO.getPrice(),
-                    modelDTO.getImageUrl()
-            );
-
-            offerViewModels.add(offerViewModel);
-        }
+//        List<OfferViewModel> offerViewModels = new ArrayList<>();
+//
+//        for (OfferDTO offerDTO : offerDTOList) {
+//            BrandDTO brandDTO = offerDTO.getModel().getBrand();
+//            ModelDTO modelDTO = offerDTO.getModel();
+//
+//            OfferViewModel offerViewModel = new OfferViewModel(
+//                    offerDTO.getId(),
+//                    brandDTO.getName(),
+//                    modelDTO.getName(),
+//                    offerDTO.getPrice(),
+//                    modelDTO.getImageUrl()
+//            );
+//
+//            offerViewModels.add(offerViewModel);
+//        }
     }
     }
 //        offerService.getDescriptionsByBrandAndModel("Audi", "TT RS").forEach(System.out::println);

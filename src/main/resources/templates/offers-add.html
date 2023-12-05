@@ -11,78 +11,68 @@
                 <div class="justify-content-center">
                     <h1>Добавление предложения</h1>
                 </div>
-                <form th:action="@{/offers/create}"
-                      th:method="post"
-                      th:object="${offerModel}"
-                      class="m-md-auto w-50 pb-3">
+                <form th:action="@{/offers/create}" th:method="post" th:object="${offerModel}" class="m-md-auto w-50 pb-3">
 
-                    <div>
-                        <label for="description">Description:</label>
-                        <textarea id="description" name="description" required></textarea>
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description:</label>
+                        <textarea id="description" name="description" class="form-control" required></textarea>
                     </div>
 
-                    <div>
-                        <label for="engine">Engine:</label>
-                        <select id="engine" name="engine" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="engine">Engine:</label>
+                        <select id="engine" name="engine" class="form-control" required>
                             <option th:each="engine : ${T(com.example.webdevelopment.enums.Engine).values()}"
                                     th:value="${engine}" th:text="${engine.name()}"></option>
                         </select>
                     </div>
 
-                    <div>
-                        <label for="imageUrl">Image URL:</label>
-                        <input type="url" id="imageUrl" name="imageUrl">
+                    <div class="mb-3">
+                        <label class="form-label" for="imageUrl">Image URL:</label>
+                        <input type="url" id="imageUrl" name="imageUrl" class="form-control">
                     </div>
 
-                    <div>
-                        <label for="mileage">Mileage:</label>
-                        <input type="number" id="mileage" name="mileage" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="mileage">Mileage:</label>
+                        <input type="number" id="mileage" name="mileage" class="form-control" required>
                     </div>
 
-                    <div>
-                        <label for="price">Price:</label>
-                        <input type="number" id="price" name="price" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price:</label>
+                        <input type="number" id="price" name="price" class="form-control" required>
                     </div>
 
-                    <div>
-                        <label for="transmission">Transmission:</label>
-                        <select id="transmission" name="transmission" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="transmission">Transmission:</label>
+                        <select id="transmission" name="transmission" class="form-control" required>
                             <option th:each="transmission : ${T(com.example.webdevelopment.enums.Transmission).values()}"
                                     th:value="${transmission}" th:text="${transmission.name()}"></option>
                         </select>
                     </div>
 
-                    <div>
-                        <label for="year">Year:</label>
-                        <input type="number" id="year" name="year" required>
+                    <div class="mb-3">
+                        <label class="form-label" for="year">Year:</label>
+                        <input type="number" id="year" name="year" class="form-control" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="sellerFirstName">Seller First Name</label>
-                        <input th:field="*{seller.firstName}"
-                               type="text" class="form-control text-center"
-                               id="sellerFirstName" aria-describedby="sellerFirstName" name="sellerFirstName"/>
+                        <input th:field="*{seller.firstName}" type="text" class="form-control" id="sellerFirstName" name="sellerFirstName"/>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label" for="sellerLastName">Seller Last Name</label>
-                        <input th:field="*{seller.lastName}"
-                               type="text" class="form-control text-center"
-                               id="sellerLastName" aria-describedby="sellerLastName" name="sellerLastName"/>
+                        <input th:field="*{seller.lastName}" type="text" class="form-control" id="sellerLastName" name="sellerLastName"/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="modelName">Model Name</label>
-                        <input th:field="*{model.name}"
-                               type="text" class="form-control text-center"
-                               id="modelName" aria-describedby="modelName" name="modelName"/>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="brandName">Brand Name</label>
-                        <input th:field="*{model.brand.name}"
-                               type="text" class="form-control text-center"
-                               id="brandName" aria-describedby="brandName" name="brandName"/>
+                        <input th:field="*{model.name}" type="text" class="form-control" id="modelName" name="modelName"/>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label" for="brandName">Brand Name</label>
+                        <input th:field="*{model.brand.name}" type="text" class="form-control" id="brandName" name="brandName"/>
+                    </div>
 
                     <button type="submit" class="btn btn-secondary">Добавить предложение</button>
                 </form>

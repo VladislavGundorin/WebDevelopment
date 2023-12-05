@@ -20,4 +20,6 @@ public interface ModelService {
     List<String> getModelsByBrandAndStartYear(String brandName,int yearstart);
 
     List<ModelDTO> getModelsByBrandName(String brandName);
+
+    List<ModelDTO> getModelsByBrandAndName(String brandName, String modelName);
 }

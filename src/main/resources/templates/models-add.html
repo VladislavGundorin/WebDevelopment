@@ -9,43 +9,41 @@
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
                 <h2 class="text-center text-dark mt-5">Добавить модель</h2>
-                <form th:action="@{/models/create}"
-                      method="post"
-                      th:object="${modelModel}">
-                    <div>
+                <form th:action="@{/models/create}" method="post" th:object="${modelModel}">
+                    <div class="form-group">
                         <label for="modelName">Model Name:</label>
-                        <input type="text" id="modelName" name="name" required minlength="2">
+                        <input type="text" id="modelName" name="name" class="form-control" required minlength="2">
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="modelCategory">Model Category:</label>
-                        <select id="modelCategory" name="category" required>
+                        <select id="modelCategory" name="category" class="form-control" required>
                             <option th:each="category : ${T(com.example.webdevelopment.enums.Category).values()}"
                                     th:value="${category}" th:text="${category.name()}"></option>
                         </select>
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="startYear">Start Year:</label>
-                        <input type="number" id="startYear" name="startYear" required>
+                        <input type="number" id="startYear" name="startYear" class="form-control" required>
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="endYear">End Year:</label>
-                        <input type="number" id="endYear" name="endYear" required>
+                        <input type="number" id="endYear" name="endYear" class="form-control" required>
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="imageUrl">Image URL:</label>
-                        <input type="url" id="imageUrl" name="imageUrl">
+                        <input type="url" id="imageUrl" name="imageUrl" class="form-control">
                     </div>
 
-                    <div>
+                    <div class="form-group">
                         <label for="brandName">Brand Name:</label>
-                        <input type="text" id="brandName" name="brandName">
+                        <input type="text" id="brandName" name="brandName" class="form-control">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Добавить бренд</button>
+                    <button type="submit" class="btn btn-primary">Добавить модель</button>
                 </form>
             </div>
         </div>

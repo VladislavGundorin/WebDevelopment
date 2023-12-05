@@ -9,14 +9,10 @@
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
                 <h2 class="text-center text-dark mt-5">Добавить бренд</h2>
-                <form th:action="@{/brands/create}"
-                      method="post"
-                      th:object="${brandModel}">
+                <form th:action="@{/brands/create}" method="post" th:object="${brandModel}">
                     <div class="form-group">
                         <label for="name">Название бренда:</label>
-                        <input th:field="*{name}"
-                                type="text" id="name"
-                               name="name" class="form-control"  required/>
+                        <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required/>
                     </div>
                     <button type="submit" class="btn btn-primary">Добавить бренд</button>
                 </form>

@@ -76,15 +76,23 @@ public class OfferServiceImpl implements OfferService {
         }
 
         ModelDTO modelDTO = offerDTO.getModel();
-        Model model = modelMapper.map(modelDTO, Model.class);
+        String modelName = modelDTO.getName();
 
-        if (modelDTO.getId() == null) {
+        // Проверка наличия модели в базе данных по имени и бренду
+        List<Model> existingModels = modelRepository.findByBrandNameAndModelName(brandDTO.getName(), modelName);
+
+        Model model;
+        if (existingModels.isEmpty()) {
+            model = modelMapper.map(modelDTO, Model.class);
             model.setBrand(brand);
+
             model = modelRepository.save(model);
+        } else {
+            // Модель уже существует, используем существующую
+            model = existingModels.get(0);
         }
 
         Offer offer = modelMapper.map(offerDTO, Offer.class);
-
         offer.setModel(model);
         offer.setSeller(seller);
 
@@ -92,6 +100,7 @@ public class OfferServiceImpl implements OfferService {
 
         return modelMapper.map(savedOffer, OfferDTO.class);
     }
+
 
 
 

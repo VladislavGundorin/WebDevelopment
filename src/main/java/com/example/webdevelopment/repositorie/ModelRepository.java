@@ -17,4 +17,7 @@ public interface ModelRepository extends JpaRepository<Model, UUID> {
 //    List<String> findModelsByBrandAndStartYear(String brandName, int startYear);
     List<Model> findByBrandName(String brandName);
 
+    @Query("SELECT m FROM Model m WHERE m.brand.name = :brandName AND m.name = :modelName")
+    List<Model> findByBrandNameAndModelName(@Param("brandName") String brandName, @Param("modelName") String modelName);
+
 }

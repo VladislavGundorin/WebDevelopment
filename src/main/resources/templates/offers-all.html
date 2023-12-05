@@ -7,15 +7,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+            <div class="col-md-8">
                 <h2 class="text-center text-dark mt-5">Список всех предложений</h2>
-                <div th:each="offer : ${offers}" class="d-flex flex-column bg-text mb-3">
-                    <img th:src="${offer.imageUrl}" alt="Offer Image" class="img-fluid">
-                    <h4 th:text="${'Price: ' + offer.price}"></h4>
-                    <h4 th:text="${'Mileage: ' + offer.mileage}"></h4>
-                    <h4 th:text="${'Year: ' + offer.year}"></h4>
-                    <h4><a class="btn-block"
-                           th:href="@{/offers/details/{offer-id}(offer-id=${offer.id})}">Подробная информация</a></h4>
+                <div class="row mb-3">
+                    <div th:each="offer, iterStat : ${offers}" class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <img th:src="${offer.imageUrl}" alt="Offer Image" class="card-img-top img-fluid img-thumbnail">
+                            <div class="card-body">
+                                <p class="card-text" th:text="${'Engine: ' + offer.engine}"></p>
+                                <p class="card-text" th:text="${'Mileage: ' + offer.mileage}"></p>
+                                <p class="card-text" th:text="${'Price: ' + offer.price}"></p>
+                                <p class="card-text" th:text="${'Transmission: ' + offer.transmission}"></p>
+                                <p class="card-text" th:text="${'Year: ' + offer.year}"></p>
+                                <p class="card-text" th:text="${'Seller: ' + offer.seller.firstName + ' ' + offer.seller.lastName}"></p>
+                                <p class="card-text" th:text="${'Model: ' + offer.model.name + ', Brand: ' + offer.model.brand.name}"></p>
+                                <a th:href="@{/offers/details/{offer-id}(offer-id=${offer.id})}" class="btn btn-primary">Подробная информация</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

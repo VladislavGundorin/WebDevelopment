@@ -7,13 +7,15 @@
 <main class="flex-shrink-0">
     <div class="container">
         <div class="row">
-            <h2 class="text-center text-dark mt-5">Список всех моделей</h2>
+            <h2 class="text-center text-dark mt-5">Список всех пользователей</h2>
             <div class="jumbotron text-center rounded col-md-8 mx-auto align-self-center pt-5">
                 <div class='row mb-4 d-flex justify-content-around'>
-                    <div th:each="m : ${models}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded">
-                        <h4 th:text="'Name: ' + ${m.name}"></h4>
-                        <h4 th:text="'Category: ' + ${m.category}"></h4>
-                        <a th:href="@{/models/details/{model-id}(model-id=${m.id})}" class="btn btn-primary btn-block mt-3">Подробная информация</a>
+                    <div th:each="user : ${users}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded card">
+                        <h4 th:text="'Username: ' + ${user.username}"></h4>
+                        <h4 th:text="'Full Name: ' + ${user.firstName + ' ' + user.lastName}"></h4>
+                        <h4 th:classappend="${user.isActive ? 'text-success' : 'text-danger'}">
+                            <span th:text="'Status: ' + ${user.isActive ? 'Active' : 'Inactive'}"></span>
+                        </h4>
                     </div>
                 </div>
             </div>
