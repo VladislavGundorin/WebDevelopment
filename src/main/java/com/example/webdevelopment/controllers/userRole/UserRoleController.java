@@ -20,8 +20,8 @@ public class UserRoleController {
     }
 
     @PostMapping ("/create")
-    public UserRoleDTO createUderRole(@RequestBody UserRoleDTO userRoleDTO) {
-        return userRoleService.createUderRole(userRoleDTO);
+    public UserRoleDTO createUserRole(@RequestBody UserRoleDTO userRoleDTO) {
+        return userRoleService.createUserRole(userRoleDTO);
     }
 
     @GetMapping("/alluserrole")

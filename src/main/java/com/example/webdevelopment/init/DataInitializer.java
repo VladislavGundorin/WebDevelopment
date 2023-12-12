@@ -11,10 +11,12 @@ import com.example.webdevelopment.model.Model;
 import com.example.webdevelopment.model.UserRole;
 import com.example.webdevelopment.repositorie.*;
 import com.example.webdevelopment.service.*;
-import com.example.webdevelopment.views.OfferViewModel;
+
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static com.example.webdevelopment.enums.Role.ADMIN;
+
 
 @Component
     public class DataInitializer implements CommandLineRunner {
@@ -53,9 +55,15 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
 
     @Override
     public void run(String... args) throws Exception {
+        if (userRoleRepository.findByRole(Role.USER) == null) {
+            userRoleRepository.save(new UserRole(Role.USER));
+        }
 
-        userRoleRepository.save(new UserRole(Role.USER));
-        userRoleRepository.save(new UserRole(ADMIN));
+        if (userRoleRepository.findByRole(Role.ADMIN) == null) {
+            userRoleRepository.save(new UserRole(Role.ADMIN));
+        }
+//        userRoleRepository.save(new UserRole(Role.USER));
+//        userRoleRepository.save(new UserRole(Role.ADMIN));
 
         List<UserRole> userRoles = userRoleRepository.findAll();
         System.out.println(userRoles.toString());
@@ -64,11 +72,13 @@ import static com.example.webdevelopment.enums.Role.ADMIN;
 
         Faker faker = new Faker();
         Random random = new Random();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         for (int i = 0; i < 100; i++) {
             UserDTO userDTO = new UserDTO();
             userDTO.setUsername(faker.name().username());
-            userDTO.setPassword(faker.internet().password());
+            String rawPassword = faker.internet().password();
+            userDTO.setPassword(passwordEncoder.encode(rawPassword));
             userDTO.setFirstName(faker.name().firstName());
             userDTO.setLastName(faker.name().lastName());
             userDTO.setActive(random.nextBoolean());

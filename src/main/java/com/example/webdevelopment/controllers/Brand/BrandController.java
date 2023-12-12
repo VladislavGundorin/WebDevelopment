@@ -55,6 +55,6 @@ public class BrandController {
     @PostMapping("/delete/brands/{id}")
     public String deleteBrand(@PathVariable UUID id) {
         brandService.deleteBrandById(id);
-        return "redirect:/brands/allbrands"; // Редирект на страницу всех брендов после удаления
+        return "redirect:/brands/allbrands";
     }
 }

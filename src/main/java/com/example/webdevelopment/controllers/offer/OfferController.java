@@ -46,10 +46,6 @@ public class OfferController {
             @RequestParam(name = "modelname") String modelName) {
         return offerService.getDescriptionsByBrandAndModel(brandName, modelName);
     }
-//    @GetMapping("/offer-view")
-//    public List<OfferViewModel> getOfferDataForUserView() {
-//        return offerService.getOfferDataForUserView();
-//    }
     @GetMapping("/offer-view")
     public String getOfferView(Model model) {
         List<OfferViewModel> offers = offerService.getOfferDataForUserView();
@@ -75,4 +71,5 @@ public class OfferController {
         offerService.createOffer(offerDTO);
         return "redirect:/offers/create";
     }
+
 }

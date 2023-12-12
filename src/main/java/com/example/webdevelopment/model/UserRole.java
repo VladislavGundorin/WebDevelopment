@@ -9,11 +9,11 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 public class UserRole extends BaseEntity{
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name",unique = true)
     private Role role;
 
-    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<User> users;
 

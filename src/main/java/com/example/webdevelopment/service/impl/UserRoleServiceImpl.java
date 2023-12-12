@@ -1,12 +1,11 @@
 package com.example.webdevelopment.service.impl;
 
 import com.example.webdevelopment.dto.UserRoleDTO;
+import com.example.webdevelopment.enums.Role;
 import com.example.webdevelopment.model.UserRole;
 import com.example.webdevelopment.repositorie.UserRoleRepository;
 import com.example.webdevelopment.service.UserRoleService;
 import com.example.webdevelopment.validation.ValidationUtil;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +28,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.userRoleRepository = userRoleRepository;
         this.validationUtil = validationUtil;
     }
-
     @Override
-    public UserRoleDTO createUderRole(UserRoleDTO userRoleDTO) {
-        Set<ConstraintViolation<UserRoleDTO>> violations = validationUtil.violations(userRoleDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
+    public UserRoleDTO createUserRole(UserRoleDTO userRoleDTO) {
         UserRole userRole = modelMapper.map(userRoleDTO, UserRole.class);
         UserRole saveUserRole = userRoleRepository.save(userRole);
         return modelMapper.map(saveUserRole, UserRoleDTO.class);
@@ -47,19 +41,13 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoles.stream().map(userRole -> modelMapper.map(userRole, UserRoleDTO.class))
                 .collect(Collectors.toList());
     }
-
     @Override
     public Optional<UserRoleDTO> getUserRoleByID(UUID id) {
         Optional<UserRole> optionalUserRoleDTO = userRoleRepository.findById(id);
         return optionalUserRoleDTO.map(userRole -> modelMapper.map(userRole, UserRoleDTO.class));
     }
-
     @Override
     public UserRoleDTO updateUserRoleById(UUID id, UserRoleDTO userRoleDTO) {
-        Set<ConstraintViolation<UserRoleDTO>> violations = validationUtil.violations(userRoleDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
         Optional<UserRole> optionalUserRole = userRoleRepository.findById(id);
         if (optionalUserRole.isPresent()) {
             UserRole userRole = optionalUserRole.get();
@@ -70,7 +58,6 @@ public class UserRoleServiceImpl implements UserRoleService {
             return null;
         }
     }
-
     @Override
     public void deleteUserRole(UUID id) {
         userRoleRepository.deleteById(id);
@@ -81,5 +68,9 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleRepository.findActiveUsersWithRoles();
     }
 
+    @Override
+    public UserRole getByRole(Role role) {
+        return userRoleRepository.findByRole(role);
+    }
 
 }

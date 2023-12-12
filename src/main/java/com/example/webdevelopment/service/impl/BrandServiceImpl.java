@@ -9,6 +9,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +34,6 @@ public class BrandServiceImpl implements BrandService {
         this.modelMapper = modelMapper;
         this.validationUtil = validationUtil;
     }
-
     @Override
     public BrandDTO createBrand(BrandDTO brandDTO) {
         Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
@@ -44,14 +46,12 @@ public class BrandServiceImpl implements BrandService {
         return modelMapper.map(savedBrand, BrandDTO.class);
     }
 
-
     @Override
     public List<BrandDTO> getAllBrands() {
         List<Brand> barnds = brandRepository.findAll();
         return barnds.stream().map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
-
     @Override
     public BrandDTO getBrandById(UUID id) {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
@@ -60,7 +60,6 @@ public class BrandServiceImpl implements BrandService {
         }
         return null;
     }
-
     @Override
     public BrandDTO updateBrandById(UUID id, BrandDTO brandDTO) {
         Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
@@ -77,12 +76,10 @@ public class BrandServiceImpl implements BrandService {
             return null;
         }
     }
-
     @Override
     public void deleteBrandById(UUID id) {
         brandRepository.deleteById(id);
     }
-
 
     @Override
     public List<BrandDTO> getBrandByName(String name) {

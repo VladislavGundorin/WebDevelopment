@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+</head>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/head}">Navbar</div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>Профиль</h1>
+                </div>
+                <div class="row bg-light rounded">
+                    <div class="col-md-6">
+                        <h2>Пользователь</h2>
+                        <h4 th:text="'Логин: ' + ${user.getUsername}"></h4>
+                        <h4 th:text="'Имя: ' + ${user.getFirstName}"></h4>
+                        <h4 th:text="'Фамилия: ' + ${user.getLastName}"></h4>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <h2>Ваши заказы</h2>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Модель</th>
+                <th>Цена</th>
+                <th>Подробнее</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="offer, offerStat : ${offers}">
+                <td class="user-number" th:text="${offerStat.count}"></td>
+                <td th:text="${offer.model.name}"></td>
+                <td th:text="${offer.price}"></td>
+                <td><a th:href="@{'/offer/' + ${offer.id} + '/details'}" class="buy-button">Подробнее</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

@@ -1,9 +1,9 @@
 package com.example.webdevelopment.repositorie;
 
+import com.example.webdevelopment.enums.Role;
 import com.example.webdevelopment.model.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +16,9 @@ public interface UserRoleRepository extends JpaRepository<UserRole, UUID> {
             "JOIN u.role r " +
             "WHERE u.isActive = true")
     List<Object[]> findActiveUsersWithRoles();
+
+    UserRole findByRole(Role role);
+
 }
 
 

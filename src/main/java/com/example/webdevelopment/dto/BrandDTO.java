@@ -8,9 +8,6 @@ import java.util.UUID;
 
 public class BrandDTO {
     private UUID id;
-    @NotNull
-    @NotEmpty
-    @Length(min = 2,message = "поле должно содержать минимум 2 символа")
     private String name;
 
     public BrandDTO(UUID id, String name) {

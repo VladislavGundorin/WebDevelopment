@@ -1,6 +1,7 @@
 package com.example.webdevelopment.service;
 
 import com.example.webdevelopment.dto.OfferDTO;
+import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.model.User;
 import com.example.webdevelopment.views.OfferViewModel;
 
@@ -26,5 +27,5 @@ public interface OfferService {
 
     List<OfferViewModel> getOfferDataForUserView();
 
-
 }
+

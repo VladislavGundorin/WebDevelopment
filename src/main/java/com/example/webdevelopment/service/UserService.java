@@ -4,7 +4,6 @@ import com.example.webdevelopment.dto.UserDTO;
 import com.example.webdevelopment.enums.Role;
 import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.model.User;
-import com.example.webdevelopment.views.UserViewModel;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -18,18 +17,17 @@ public interface UserService {
 
     Optional<UserDTO> getUserById(UUID id);
 
-    UserDTO updatUser(UUID id, UserDTO userDTO);
+    UserDTO updateUser(UUID id, UserDTO userDTO);
 
     void deleteUserById(UUID id);
 
     List<Object[]> getUsersByRole(@Param("roleValue") Role role);
 
-    UserViewModel getUserViewModelById(UUID id);
-
-    List<UserDTO> getUserByUsername(String username);
-
-    UserDTO registerUser(UserDTO userDTO);
+    User getUserByUsername(String username);
 
     List<User> getByFirstNameAndLastName(String firstName, String lastName);
+
+    List<Offer> allUserOffers(String username);
+
 
 }

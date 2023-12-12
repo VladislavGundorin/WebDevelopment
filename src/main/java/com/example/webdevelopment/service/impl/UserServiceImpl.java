@@ -2,21 +2,22 @@ package com.example.webdevelopment.service.impl;
 
 import com.example.webdevelopment.dto.UserDTO;
 import com.example.webdevelopment.enums.Role;
+import com.example.webdevelopment.model.Offer;
 import com.example.webdevelopment.model.User;
+import com.example.webdevelopment.model.UserRole;
+import com.example.webdevelopment.repositorie.OfferRepository;
 import com.example.webdevelopment.repositorie.UserRepository;
+import com.example.webdevelopment.repositorie.UserRoleRepository;
+import com.example.webdevelopment.service.UserRoleService;
 import com.example.webdevelopment.service.UserService;
 import com.example.webdevelopment.validation.ValidationUtil;
-import com.example.webdevelopment.views.UserViewModel;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,24 +25,40 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
+    private final UserRoleRepository userRoleRepository;
+    private final UserRoleService userRoleService;
+    private final PasswordEncoder passwordEncoder;
+    private final OfferRepository offerRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, ValidationUtil validationUtil) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, ValidationUtil validationUtil, UserRoleRepository userRoleRepository,UserRoleService userRoleService,PasswordEncoder passwordEncoder,OfferRepository offerRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.validationUtil = validationUtil;
+        this.userRoleRepository = userRoleRepository;
+        this.userRoleService = userRoleService;
+        this.passwordEncoder = passwordEncoder;
+        this.offerRepository = offerRepository;
     }
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
-        Set<ConstraintViolation<UserDTO>> violations = validationUtil.violations(userDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
         User user = modelMapper.map(userDTO, User.class);
-        User savedUser = userRepository.save(user);
-        return modelMapper.map(savedUser, UserDTO.class);
-    }
+        if (user.getRole() != null) {
+            UserRole existingRole = userRoleRepository.findByRole(user.getRole().getRole());
+
+            if (existingRole != null) {
+                user.setRole(existingRole);
+            } else {
+                UserRole savedRole = userRoleRepository.save(user.getRole());
+                user.setRole(savedRole);
+            }
+        }
+
+    User savedUser = userRepository.save(user);
+    return modelMapper.map(savedUser, UserDTO.class);
+}
+
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -57,11 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updatUser(UUID id, UserDTO userDTO) {
-        Set<ConstraintViolation<UserDTO>> violations = validationUtil.violations(userDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
+    public UserDTO updateUser(UUID id, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -70,6 +83,9 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setImageUrl(userDTO.getImageUrl());
+            if (userDTO.getRole() != null) {
+                user.setRole(user.getRole());
+            }
             User updateUser = userRepository.save(user);
             return modelMapper.map(updateUser, UserDTO.class);
         }
@@ -85,47 +101,26 @@ public class UserServiceImpl implements UserService {
     public List<Object[]> getUsersByRole(Role role) {
         return userRepository.findUsersByRole(role);
     }
-    @Override
-    public UserViewModel getUserViewModelById(UUID id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-            return new UserViewModel(userDTO.getUsername(), "your@email.com");
-        }
-        return null;
-    }
 
     @Override
-    public List<UserDTO> getUserByUsername(String username) {
-        List<User> users = userRepository.findUserByUsername(username);
-        return users.stream().map(user -> modelMapper.map(user,UserDTO.class))
-                .collect(Collectors.toList());
+    public User getUserByUsername(String username) {
+        Optional<User> users = userRepository.findUserByUsername(username);
+        return users.get();
     }
-    @Override
-    public UserDTO registerUser(UserDTO userDTO) {
-        Set<ConstraintViolation<UserDTO>> violations = validationUtil.violations(userDTO);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-        List<User> usersWithUsername = userRepository.findUserByUsername(userDTO.getUsername());
-        if (!usersWithUsername.isEmpty()) {
-            throw new RuntimeException("Пользователь с таким именем пользователя уже существует");
-        }
-
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setActive(true);
-        User savedUser = userRepository.save(user);
-
-        return modelMapper.map(savedUser, UserDTO.class);
-    }
-
     @Override
     public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
+    @Override
+    public List<Offer> allUserOffers(String username) {
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return offerRepository.findBySeller(user);
+        }
+        return Collections.emptyList();
+    }
 }
+
 

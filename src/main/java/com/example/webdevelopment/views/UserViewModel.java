@@ -1,18 +1,22 @@
 package com.example.webdevelopment.views;
 
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-
 public class UserViewModel {
-    @NotBlank(message = "Имя пользователя не может быть пустым")
     private String username;
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Пароль должен содержать не менее 8 символов и содержать по крайней мере одну строчную букву, одну заглавную букву и одну цифру.")
-    private String password;
+    private String firstName;
+    private String lastName;
+    private Boolean isActive;
+    private String imageUrl;
 
-    public UserViewModel(String username, String password) {
+    public UserViewModel(){
+
+    }
+
+    public UserViewModel(String username, String firstName, String lastName, Boolean isActive, String imageUrl) {
         this.username = username;
-        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isActive = isActive;
+        this.imageUrl = imageUrl;
     }
 
     public String getUsername() {
@@ -23,11 +27,46 @@ public class UserViewModel {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "UserViewModel{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", isActive=" + isActive +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }

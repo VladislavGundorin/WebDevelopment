@@ -11,9 +11,6 @@ import java.util.UUID;
 
 public class ModelDTO {
     private UUID id;
-    @NotNull
-    @NotEmpty
-    @Length(min = 2,message = "поле должно содержать минимум 2 символа")
     private String name;
     private Category category;
 

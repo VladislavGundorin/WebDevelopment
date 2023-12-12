@@ -1,33 +1,20 @@
 package com.example.webdevelopment.model;
 
-import com.example.webdevelopment.enums.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
-import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "password")
     private String password;
-    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name")
     private String lastName;
-    @Column(name = "is_active")
     private boolean isActive;
-
-    @Column(name = "image_url")
     private String imageUrl;
 
-    protected LocalDateTime created;
-    protected LocalDateTime modified;
 
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @OneToMany(mappedBy = "seller")
@@ -38,18 +25,15 @@ public class User extends BaseEntity {
     private UserRole role;
 
     public User() {
-
     }
 
-    public User(String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, LocalDateTime created, LocalDateTime modified, UserRole role) {
+    public User(String username, String password, String firstName, String lastName, boolean isActive, String imageUrl, UserRole role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
         this.imageUrl = imageUrl;
-        this.created = created;
-        this.modified = modified;
         this.role = role;
     }
 
@@ -101,22 +85,6 @@ public class User extends BaseEntity {
         this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
-
     public List<Offer> getOffers() {
         return offers;
     }
@@ -142,8 +110,7 @@ public class User extends BaseEntity {
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", created=" + created +
-                ", modified=" + modified +
+                ", offers=" + offers +
                 ", role=" + role +
                 ", id=" + id +
                 "} " + super.toString();

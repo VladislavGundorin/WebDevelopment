@@ -43,7 +43,6 @@ public class OfferServiceImpl implements OfferService {
         this.brandRepository = brandRepository;
         this.userRepository = userRepository;
     }
-
     @Override
     @Transactional
     public OfferDTO createOffer(OfferDTO offerDTO) {
@@ -51,11 +50,8 @@ public class OfferServiceImpl implements OfferService {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-
         UserDTO sellerDTO = offerDTO.getSeller();
-
         List<User> existingSellers = userRepository.findByFirstNameAndLastName(sellerDTO.getFirstName(), sellerDTO.getLastName());
-
         User seller;
         if (existingSellers.isEmpty()) {
             seller = modelMapper.map(sellerDTO, User.class);
@@ -63,24 +59,17 @@ public class OfferServiceImpl implements OfferService {
         } else {
             seller = existingSellers.get(0);
         }
-
         BrandDTO brandDTO = offerDTO.getModel().getBrand();
         Brand brand;
-
         List<Brand> existingBrands = brandRepository.findByName(brandDTO.getName());
-
         if (!existingBrands.isEmpty()) {
             brand = existingBrands.get(0);
         } else {
             brand = brandRepository.save(modelMapper.map(brandDTO, Brand.class));
         }
-
         ModelDTO modelDTO = offerDTO.getModel();
         String modelName = modelDTO.getName();
-
-        // Проверка наличия модели в базе данных по имени и бренду
         List<Model> existingModels = modelRepository.findByBrandNameAndModelName(brandDTO.getName(), modelName);
-
         Model model;
         if (existingModels.isEmpty()) {
             model = modelMapper.map(modelDTO, Model.class);
@@ -88,7 +77,6 @@ public class OfferServiceImpl implements OfferService {
 
             model = modelRepository.save(model);
         } else {
-            // Модель уже существует, используем существующую
             model = existingModels.get(0);
         }
 
@@ -101,16 +89,12 @@ public class OfferServiceImpl implements OfferService {
         return modelMapper.map(savedOffer, OfferDTO.class);
     }
 
-
-
-
     @Override
     public List<OfferDTO> getAllOffers() {
         List<Offer> offers = offerRepository.findAll();
         return offers.stream().map(offer -> modelMapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
     }
-
     @Override
     public OfferDTO getOfferById(UUID id) {
         Optional<Offer> offerOptional = offerRepository.findById(id);
@@ -119,7 +103,6 @@ public class OfferServiceImpl implements OfferService {
         }
         return null;
     }
-
     @Override
     public OfferDTO updateOfferByID(UUID id, OfferDTO offerDTO) {
         Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
@@ -170,7 +153,6 @@ public class OfferServiceImpl implements OfferService {
     public List<String> getDescriptionsByBrandAndModel(String brandName, String modelName) {
         return offerRepository.findDescriptionsByBrandAndModel(brandName,modelName);
     }
-
     @Override
     public List<OfferViewModel> getOfferDataForUserView() {
         List<Offer> offers = offerRepository.findAll();
@@ -191,8 +173,6 @@ public class OfferServiceImpl implements OfferService {
 
             offerViewModels.add(viewModel);
         }
-
         return offerViewModels;
     }
-
 }

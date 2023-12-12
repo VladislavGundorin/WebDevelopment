@@ -1,14 +1,16 @@
 package com.example.webdevelopment.service;
 
 import com.example.webdevelopment.dto.UserRoleDTO;
-import org.springframework.data.repository.query.Param;
+import com.example.webdevelopment.enums.Role;
+import com.example.webdevelopment.model.UserRole;
+
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRoleService {
-    UserRoleDTO createUderRole (UserRoleDTO userRoleDTO);
+    UserRoleDTO createUserRole(UserRoleDTO userRoleDTO);
 
     List<UserRoleDTO> getAllUserRoles();
 
@@ -20,6 +22,7 @@ public interface UserRoleService {
 
     List<Object[]> getActiveUsersWithRoles();
 
+    UserRole getByRole(Role role);
 
 
 }
