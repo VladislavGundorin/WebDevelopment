@@ -38,6 +38,8 @@ public class Offer extends BaseEntity implements ImageUrlProvider{
     private LocalDateTime created;
     private LocalDateTime modified;
 
+    private int viewCount;
+
     @ManyToOne
     @JoinColumn(name = "seller_id", referencedColumnName = "id")
     private User seller;
@@ -49,7 +51,7 @@ public class Offer extends BaseEntity implements ImageUrlProvider{
 
     }
 
-    public Offer(String description, Engine engine, String imageUrl, Integer mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, User seller, Model model) {
+    public Offer(String description, Engine engine, String imageUrl, Integer mileage, int price, Transmission transmission, int year, LocalDateTime created, LocalDateTime modified, User seller, Model model, int viewCount) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -61,6 +63,15 @@ public class Offer extends BaseEntity implements ImageUrlProvider{
         this.modified = modified;
         this.seller = seller;
         this.model = model;
+        this.viewCount = viewCount;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public String getDescription() {
@@ -148,17 +159,20 @@ public class Offer extends BaseEntity implements ImageUrlProvider{
         return "Offer{" +
                 "description='" + description + '\'' +
                 ", engine=" + engine +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", mileage=" + mileage +
                 ", price=" + price +
                 ", transmission=" + transmission +
                 ", year=" + year +
                 ", created=" + created +
                 ", modified=" + modified +
+                ", viewCount=" + viewCount +
                 ", seller=" + seller +
                 ", model=" + model +
                 ", id=" + id +
                 "} " + super.toString();
     }
+
     @Override
     public String getImageUrl() {
         return this.imageUrl;

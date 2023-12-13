@@ -186,4 +186,24 @@ public class OfferServiceImpl implements OfferService {
         }
         return offerViewModels;
     }
+    @Override
+    public List<OfferDTO> getAllOffersOrderByViewCountDesc() {
+        List<Offer> offers = offerRepository.findAllByOrderByViewCountDesc();
+        return offers.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private OfferDTO convertToDTO(Offer offer) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(offer, OfferDTO.class);
+    }
+    @Override
+    public void incrementViewCount(UUID offerId) {
+        Offer offer = offerRepository.findById(offerId).orElse(null);
+        if (offer != null) {
+            offer.setViewCount(offer.getViewCount() + 1);
+            offerRepository.save(offer);
+        }
+    }
 }

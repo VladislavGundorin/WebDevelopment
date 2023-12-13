@@ -23,12 +23,25 @@ public class OfferController {
     }
 
 
+//    @GetMapping("/alloffers")
+//    public String getAllOffers(Model model) {
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
+//
+//        List<OfferDTO> offerDTOs = offerService.getAllOffers();
+//
+//        stopWatch.stop();
+//        System.out.println("getAllOffers execution time: " + stopWatch.getTotalTimeMillis() + " ms");
+//
+//        model.addAttribute("offers", offerDTOs);
+//        return "offers-all";
+//    }
     @GetMapping("/alloffers")
     public String getAllOffers(Model model) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        List<OfferDTO> offerDTOs = offerService.getAllOffers();
+        List<OfferDTO> offerDTOs = offerService.getAllOffersOrderByViewCountDesc();
 
         stopWatch.stop();
         System.out.println("getAllOffers execution time: " + stopWatch.getTotalTimeMillis() + " ms");
@@ -36,12 +49,28 @@ public class OfferController {
         model.addAttribute("offers", offerDTOs);
         return "offers-all";
     }
+
+    //    @GetMapping("/details/{offer-id}")
+//    public String offerDetails(@PathVariable("offer-id") UUID offerId, Model model) {
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
+//
+//        OfferDTO offerDTO = offerService.getOfferById(offerId);
+//
+//        stopWatch.stop();
+//        System.out.println("offerDetails execution time: " + stopWatch.getTotalTimeMillis() + " ms");
+//
+//        model.addAttribute("offerDetails", offerDTO);
+//        return "offers-details";
+//    }
     @GetMapping("/details/{offer-id}")
     public String offerDetails(@PathVariable("offer-id") UUID offerId, Model model) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         OfferDTO offerDTO = offerService.getOfferById(offerId);
+
+        offerService.incrementViewCount(offerId);
 
         stopWatch.stop();
         System.out.println("offerDetails execution time: " + stopWatch.getTotalTimeMillis() + " ms");

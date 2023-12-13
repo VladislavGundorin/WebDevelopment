@@ -24,4 +24,6 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
 
     List<Offer> findBySeller(User seller);
 
+    List<Offer> findAllByOrderByViewCountDesc();
+
 }

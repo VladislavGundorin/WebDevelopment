@@ -27,5 +27,8 @@ public interface OfferService {
 
     List<OfferViewModel> getOfferDataForUserView();
 
+    List<OfferDTO> getAllOffersOrderByViewCountDesc();
+
+    void incrementViewCount(UUID offerId);
 }
 
