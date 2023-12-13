@@ -20,12 +20,16 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class OfferServiceImpl implements OfferService {
     private final ModelMapper modelMapper;
     private final OfferRepository offerRepository;
@@ -45,6 +49,7 @@ public class OfferServiceImpl implements OfferService {
     }
     @Override
     @Transactional
+    @CacheEvict(value = "offerCache", allEntries = true)
     public OfferDTO createOffer(OfferDTO offerDTO) {
         Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
         if (!violations.isEmpty()) {
@@ -90,12 +95,14 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    @Cacheable(value = "offerCache")
     public List<OfferDTO> getAllOffers() {
         List<Offer> offers = offerRepository.findAll();
         return offers.stream().map(offer -> modelMapper.map(offer, OfferDTO.class))
                 .collect(Collectors.toList());
     }
     @Override
+    @Cacheable(value = "offerCache", key = "#id")
     public OfferDTO getOfferById(UUID id) {
         Optional<Offer> offerOptional = offerRepository.findById(id);
         if (offerOptional.isPresent()) {
@@ -104,6 +111,7 @@ public class OfferServiceImpl implements OfferService {
         return null;
     }
     @Override
+    @CacheEvict(value = "offerCache", key = "#id")
     public OfferDTO updateOfferByID(UUID id, OfferDTO offerDTO) {
         Set<ConstraintViolation<OfferDTO>> violations = validationUtil.violations(offerDTO);
         if (!violations.isEmpty()) {
@@ -145,15 +153,18 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    @CacheEvict(value = "offerCache", key = "#id")
     public void deleteOfferById(UUID id) {
         offerRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable(value = "offerCache", key = "#brandName + '-' + #modelName")
     public List<String> getDescriptionsByBrandAndModel(String brandName, String modelName) {
         return offerRepository.findDescriptionsByBrandAndModel(brandName,modelName);
     }
     @Override
+    @Cacheable(value = "offerCache", key = "'offerDataForUserView'")
     public List<OfferViewModel> getOfferDataForUserView() {
         List<Offer> offers = offerRepository.findAll();
         List<OfferViewModel> offerViewModels = new ArrayList<>();

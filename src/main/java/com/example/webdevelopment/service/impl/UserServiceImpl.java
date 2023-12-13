@@ -13,6 +13,9 @@ import com.example.webdevelopment.service.UserService;
 import com.example.webdevelopment.validation.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public UserDTO createUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
         if (user.getRole() != null) {
@@ -61,6 +66,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Cacheable(value = "users")
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(user -> modelMapper.map(user, UserDTO.class))
@@ -68,12 +74,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "users", key = "#id")
     public Optional<UserDTO> getUserById(UUID id) {
         Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.map(user -> modelMapper.map(user, UserDTO.class));
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#id")
     public UserDTO updateUser(UUID id, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
@@ -93,21 +101,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#id")
     public void deleteUserById(UUID id) {
         userRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable(value = "usersByRole", key = "#role")
     public List<Object[]> getUsersByRole(Role role) {
         return userRepository.findUsersByRole(role);
     }
 
     @Override
+    @Cacheable(value = "userByUsername", key = "#username")
     public User getUserByUsername(String username) {
         Optional<User> users = userRepository.findUserByUsername(username);
         return users.get();
     }
     @Override
+    @Cacheable(value = "usersByFirstNameAndLastName", key = "#firstName + '_' + #lastName")
     public List<User> getByFirstNameAndLastName(String firstName, String lastName) {
         return userRepository.findByFirstNameAndLastName(firstName, lastName);
     }
