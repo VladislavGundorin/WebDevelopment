@@ -11,6 +11,9 @@ import com.example.webdevelopment.views.UserRegistrationViewModel;
 import com.example.webdevelopment.views.UserViewModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +32,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
     private final UserService userService;
     private final AuthService authService;
     private final OfferService offerService;
@@ -42,26 +46,31 @@ public class UserController {
 
     @GetMapping("/getuser/{id}")
     public UserDTO getUserById(@PathVariable UUID id) {
+        LOG.log(Level.INFO, "Entering method: getUserById");
         return userService.getUserById(id).orElse(null);
     }
 
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable UUID id) {
+        LOG.log(Level.INFO, "Entering method: deleteUserById");
         userService.deleteUserById(id);
     }
 
     @GetMapping("/byRole")
     public List<Object[]> getUsersByRole(@RequestParam Role role) {
+        LOG.log(Level.INFO, "Entering method: getUsersByRole");
         return userService.getUsersByRole(role);
     }
 
     @PostMapping("/create")
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
+        LOG.log(Level.INFO, "Entering method: createUser");
         return userService.createUser(userDTO);
     }
 
     @GetMapping("/allusers")
     public String getAllUser(Model model) {
+        LOG.log(Level.INFO, "Entering method: getAllUser");
         List<UserDTO> userDTOs = userService.getAllUsers();
         model.addAttribute("users", userDTOs);
         return "users-all";
@@ -69,6 +78,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
+        LOG.log(Level.INFO, "Entering method: login");
         return "login";
     }
 
@@ -76,7 +86,7 @@ public class UserController {
     public String onFailedLogin(
             @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username,
             RedirectAttributes redirectAttributes) {
-
+        LOG.log(Level.INFO, "Entering method: onFailedLogin");
         redirectAttributes.addFlashAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY, username);
         redirectAttributes.addFlashAttribute("badCredentials", true);
 
@@ -85,6 +95,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@Valid UserRegistrationViewModel userRegistrationViewModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        LOG.log(Level.INFO, "Entering method: registerUser");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("regUserView", userRegistrationViewModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.regUserView", bindingResult);
@@ -99,16 +110,19 @@ public class UserController {
 
     @ModelAttribute("regUserView")
     public UserRegistrationViewModel initUser() {
+
         return new UserRegistrationViewModel();
     }
 
     @GetMapping("/register")
     public String regNewUSer() {
+        LOG.log(Level.INFO, "Entering method: regNewUSer");
         return "register";
     }
 
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
+        LOG.log(Level.INFO, "Entering method: profile");
         String username = principal.getName();
         User user = userService.getUserByUsername(username);
 

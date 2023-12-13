@@ -10,7 +10,6 @@
             padding: 0;
         }
 
-
         .side-panel {
             position: fixed;
             left: 0;
@@ -45,9 +44,11 @@
             top: 10px;
             right: 10px;
             z-index: 1;
+            display: flex;
         }
 
-        .top-buttons a {
+        .top-buttons a,
+        .top-buttons form input {
             display: inline-block;
             padding: 10px 20px;
             font-weight: bold;
@@ -56,16 +57,16 @@
             text-decoration: none;
             background-color: #eee;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-right: 10px;
         }
 
-        .top-buttons a:hover {
+        .top-buttons a:hover,
+        .top-buttons form input:hover {
             background-color: #ddd;
         }
     </style>
 </head>
 <body>
-
 
 <div class="side-panel">
     <a href="/">Главная</a>
@@ -79,12 +80,13 @@
     <a href="/users/profile" sec:authorize="isAuthenticated()">Личный кабинет</a>
 </div>
 
-
 <div class="top-buttons">
     <a class="nav-item nav-link text-dark" th:href="@{/users/register}">Register</a>
     <a class="nav-item nav-link text-dark" th:href="@{/users/login}">Login</a>
+    <form th:method="post" th:action="@{/users/logout}">
+        <input class="btn btn-link nav-link" type="submit" value="Logout">
+    </form>
 </div>
-
 
 <div class="main-content">
 

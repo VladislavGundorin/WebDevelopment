@@ -164,7 +164,6 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.findDescriptionsByBrandAndModel(brandName,modelName);
     }
     @Override
-    @Cacheable(value = "offerCache", key = "'offerDataForUserView'")
     public List<OfferViewModel> getOfferDataForUserView() {
         List<Offer> offers = offerRepository.findAll();
         List<OfferViewModel> offerViewModels = new ArrayList<>();

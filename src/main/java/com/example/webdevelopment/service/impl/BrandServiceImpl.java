@@ -23,7 +23,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
 public class BrandServiceImpl implements BrandService {
     private final ModelMapper modelMapper;
     private final BrandRepository brandRepository;
@@ -36,7 +35,6 @@ public class BrandServiceImpl implements BrandService {
         this.validationUtil = validationUtil;
     }
     @Override
-    @CacheEvict(value = "brandCache", allEntries = true)
     public BrandDTO createBrand(BrandDTO brandDTO) {
         Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
         if (!violations.isEmpty()) {
@@ -49,14 +47,12 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    @Cacheable(value = "brandCache")
     public List<BrandDTO> getAllBrands() {
         List<Brand> barnds = brandRepository.findAll();
         return barnds.stream().map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
     @Override
-    @Cacheable(value = "brandCache", key = "#id")
     public BrandDTO getBrandById(UUID id) {
         Optional<Brand> optionalBrand = brandRepository.findById(id);
         if (optionalBrand.isPresent()) {
@@ -65,7 +61,6 @@ public class BrandServiceImpl implements BrandService {
         return null;
     }
     @Override
-    @CacheEvict(value = "brandCache", key = "#id")
     public BrandDTO updateBrandById(UUID id, BrandDTO brandDTO) {
         Set<ConstraintViolation<BrandDTO>> violations = validationUtil.violations(brandDTO);
         if (!violations.isEmpty()) {
@@ -82,13 +77,11 @@ public class BrandServiceImpl implements BrandService {
         }
     }
     @Override
-    @CacheEvict(value = "brandCache", key = "#id")
     public void deleteBrandById(UUID id) {
         brandRepository.deleteById(id);
     }
 
     @Override
-    @Cacheable(value = "brandCache", key = "#name")
     public List<BrandDTO> getBrandByName(String name) {
         List<Brand> brands = brandRepository.findByName(name);
         return brands.stream()
@@ -97,7 +90,6 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    @Cacheable(value = "brandCache", key = "'lowestMileageAndPrice'")
     public List<Object[]> getBrandWithLowestMileageAndPrice() {
         return brandRepository.findBrandWithLowestMileageAndPrice();
     }

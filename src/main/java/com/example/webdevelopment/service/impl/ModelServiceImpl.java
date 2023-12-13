@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
+
 public class ModelServiceImpl implements ModelService {
     private final ModelMapper modelMapper;
     private final ModelRepository modelRepository;
@@ -35,7 +36,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @CacheEvict(value = "modelCache", allEntries = true)
+
     public ModelDTO createModel(ModelDTO modelDTO) {
         Set<ConstraintViolation<ModelDTO>> violations = validationUtil.violations(modelDTO);
         if (!violations.isEmpty()) {
@@ -47,7 +48,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @Cacheable(value = "modelCache")
+    @Cacheable(value = "modelCache", key = "'allModels'")
     public List<ModelDTO> getAllModels() {
         List<Model> models = modelRepository.findAll();
         return models.stream().map(model -> modelMapper.map(model, ModelDTO.class))
@@ -55,7 +56,6 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @Cacheable(value = "modelCache", key = "#id")
     public ModelDTO getModelById(UUID id) {
         Optional<Model> modelOptional = modelRepository.findById(id);
         if (modelOptional.isPresent()) {
@@ -65,7 +65,6 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @CacheEvict(value = "modelCache", key = "#id")
     public ModelDTO updateModelById(UUID id, ModelDTO modelDTO) {
         Set<ConstraintViolation<ModelDTO>> violations = validationUtil.violations(modelDTO);
         if (!violations.isEmpty()) {
@@ -87,19 +86,16 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @CacheEvict(value = "modelCache", key = "#id")
     public void deleteModelById(UUID id) {
         modelRepository.deleteById(id);
     }
 
     @Override
-    @Cacheable(value = "modelCache", key = "#brandName + '-' + #yearstart")
     public List<String> getModelsByBrandAndStartYear(String brandName, int yearstart) {
         return modelRepository.findModelsByBrandAndStartYear(brandName,yearstart);
     }
 
     @Override
-    @Cacheable(value = "modelCache", key = "#brandName")
     public List<ModelDTO> getModelsByBrandName(String brandName) {
         List<Model> models = modelRepository.findByBrandName(brandName);
         return models.stream()
@@ -108,7 +104,6 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    @Cacheable(value = "modelCache", key = "#brandName + '-' + #modelName")
     public List<ModelDTO> getModelsByBrandAndName(String brandName, String modelName) {
         List<Model> models = modelRepository.findByBrandNameAndModelName(brandName,modelName);
         return models.stream().map(model -> modelMapper.map(model,ModelDTO.class))

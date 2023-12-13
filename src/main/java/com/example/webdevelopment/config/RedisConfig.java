@@ -33,11 +33,8 @@ public class RedisConfig {
 
         return RedisCacheManager.builder(redisConnectionFactory())
                 .cacheDefaults(cacheConfig)
-                .withCacheConfiguration("brandCache", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("modelCache", myDefaultCacheConfig(Duration.ofMinutes(10)))
                 .withCacheConfiguration("offerCache", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("userRoles", myDefaultCacheConfig(Duration.ofMinutes(10)))
-                .withCacheConfiguration("users", myDefaultCacheConfig(Duration.ofMinutes(10)))
+                .withCacheConfiguration("modelCache", myDefaultCacheConfig(Duration.ofMinutes(10)))
                 .build();
     }
 
